@@ -1,0 +1,281 @@
+@import "tailwindcss";
+
+@theme {
+  --color-warm-white: #faf8f5;
+  --color-soft-beige: #f0ebe3;
+  --color-champagne: #e8dcc8;
+  --color-sage-green: #8fa888;
+  --color-deep-sage: #5a7a5f;
+  --color-warm-gray: #9c9690;
+  --color-blue-tech: #4a90b8;
+  --color-blue-tech-light: #7ab8d4;
+}
+
+:root {
+  --warm-white: #faf8f5;
+  --soft-beige: #f0ebe3;
+  --champagne: #e8dcc8;
+  --sage-green: #8fa888;
+  --deep-sage: #5a7a5f;
+  --warm-gray: #9c9690;
+  --blue-tech: #4a90b8;
+  --blue-tech-light: #7ab8d4;
+  --glass-white: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.25);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+  scroll-behavior: auto;
+}
+
+body {
+  background-color: var(--warm-white);
+  color: #2a2a2a;
+  font-family: 'Georgia', serif;
+  overflow-x: hidden;
+}
+
+/* Lenis smooth scroll */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Glass utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.glass-panel {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  backdrop-filter: blur(30px) saturate(1.5) brightness(1.05);
+  -webkit-backdrop-filter: blur(30px) saturate(1.5) brightness(1.05);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 20px 60px rgba(0, 0, 0, 0.12);
+}
+
+/* Frosted door surface */
+.frosted-surface {
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(240, 235, 227, 0.35) 25%,
+    rgba(255, 255, 255, 0.18) 50%,
+    rgba(232, 220, 200, 0.28) 75%,
+    rgba(255, 255, 255, 0.20) 100%
+  );
+  backdrop-filter: blur(48px) brightness(1.1) saturate(1.2);
+  -webkit-backdrop-filter: blur(48px) brightness(1.1) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow:
+    inset 0 2px 2px rgba(255, 255, 255, 0.6),
+    inset 0 -2px 2px rgba(255, 255, 255, 0.2),
+    inset 2px 0 2px rgba(255, 255, 255, 0.4),
+    inset -2px 0 2px rgba(255, 255, 255, 0.3),
+    0 30px 100px rgba(0, 0, 0, 0.25);
+}
+
+/* Text gradient */
+.text-gradient {
+  background: linear-gradient(135deg, #5a7a5f 0%, #4a90b8 50%, #8fa888 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-warm {
+  background: linear-gradient(135deg, #c8a96e 0%, #e8dcc8 50%, #b8955a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Scroll indicator */
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.8; }
+  50% { transform: translateY(8px); opacity: 0.3; }
+}
+
+.scroll-bounce {
+  animation: scroll-bounce 2s ease-in-out infinite;
+}
+
+/* Particle float */
+@keyframes float-up {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(-120px) rotate(180deg); opacity: 0; }
+}
+
+.particle-float {
+  animation: float-up linear infinite;
+}
+
+/* Pulse glow */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(74, 144, 184, 0.3), 0 0 40px rgba(74, 144, 184, 0.1); }
+  50% { box-shadow: 0 0 40px rgba(74, 144, 184, 0.6), 0 0 80px rgba(74, 144, 184, 0.25), 0 0 120px rgba(74, 144, 184, 0.1); }
+}
+
+.pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Shimmer effect */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.shimmer-overlay {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255,255,255,0.3) 50%,
+    transparent 60%
+  );
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Device screen glow */
+@keyframes screen-pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+.screen-glow {
+  animation: screen-pulse 4s ease-in-out infinite;
+}
+
+/* Heartbeat line */
+@keyframes heartbeat-draw {
+  0% { stroke-dashoffset: 500; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.heartbeat-line {
+  stroke-dasharray: 500;
+  animation: heartbeat-draw 2s ease-out forwards;
+}
+
+/* Breathing animation */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.03); opacity: 1; }
+}
+
+.breathe {
+  animation: breathe 6s ease-in-out infinite;
+}
+
+/* CTA button hover */
+.cta-btn {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.cta-btn:hover::before {
+  width: 400px;
+  height: 400px;
+}
+
+.cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 60px rgba(74, 144, 184, 0.4);
+}
+
+/* Divider line */
+.divider-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(143, 168, 136, 0.5), rgba(74, 144, 184, 0.5), transparent);
+}
+
+/* Scene background patterns */
+.bg-grid-subtle {
+  background-image:
+    linear-gradient(rgba(143, 168, 136, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(143, 168, 136, 0.06) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Leaf/botanical decoration */
+@keyframes sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+.sway {
+  animation: sway 8s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+/* Number counter */
+.stat-number {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Overlay gradients */
+.overlay-top {
+  background: linear-gradient(to bottom, var(--warm-white) 0%, transparent 100%);
+}
+
+.overlay-bottom {
+  background: linear-gradient(to top, var(--warm-white) 0%, transparent 100%);
+}
