@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gold: 201 168 106;
+  --warm-white: 250 247 241;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: #000;
+  color: #fff;
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(201, 168, 106, 0.35);
+  color: #fff;
+}
+
+a,
+button {
+  outline: none;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid rgb(201 168 106);
+  outline-offset: 4px;
+  border-radius: 9999px;
+}
+
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: 1rem;
+  z-index: 100;
+  background: #fff;
+  color: #000;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus-visible {
+  top: 1rem;
+}
+
+/* Feathered radial mask used by all cinematic media */
+.feather-mask {
+  -webkit-mask-image: radial-gradient(
+    ellipse 68% 62% at 50% 50%,
+    black 38%,
+    rgba(0, 0, 0, 0.55) 62%,
+    transparent 86%
+  );
+  mask-image: radial-gradient(
+    ellipse 68% 62% at 50% 50%,
+    black 38%,
+    rgba(0, 0, 0, 0.55) 62%,
+    transparent 86%
+  );
+}
+
+.feather-mask-oval {
+  -webkit-mask-image: radial-gradient(
+    ellipse 50% 64% at 50% 46%,
+    black 46%,
+    rgba(0, 0, 0, 0.5) 68%,
+    transparent 88%
+  );
+  mask-image: radial-gradient(
+    ellipse 50% 64% at 50% 46%,
+    black 46%,
+    rgba(0, 0, 0, 0.5) 68%,
+    transparent 88%
+  );
+}
+
+.feather-mask-wide {
+  -webkit-mask-image: radial-gradient(
+    ellipse 85% 70% at 50% 50%,
+    black 45%,
+    rgba(0, 0, 0, 0.5) 70%,
+    transparent 95%
+  );
+  mask-image: radial-gradient(
+    ellipse 85% 70% at 50% 50%,
+    black 45%,
+    rgba(0, 0, 0, 0.5) 70%,
+    transparent 95%
+  );
+}
+
+@keyframes heartbeat {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  12% {
+    transform: scale(1.12);
+    opacity: 0.9;
+  }
+  24% {
+    transform: scale(1.02);
+    opacity: 0.6;
+  }
+  36% {
+    transform: scale(1.09);
+    opacity: 0.8;
+  }
+  55% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+}
+
+.heartbeat {
+  animation: heartbeat 1s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heartbeat {
+    animation: none;
+    opacity: 0.7;
+  }
+}
