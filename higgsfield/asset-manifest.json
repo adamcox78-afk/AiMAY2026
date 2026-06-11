@@ -1,0 +1,202 @@
+[
+  {
+    "id": "scene1-cell-loop",
+    "scene": 1,
+    "type": "video",
+    "file": "/assets/higgsfield/scene1-cell-loop.mp4",
+    "model": "seedance_2_0",
+    "prompt": "Extreme macro cinematography of a single living human cell suspended in absolute darkness, bioluminescent membrane glowing soft amber-gold from within, organelles drifting like slow constellations, shallow depth of field as if shot through a 100mm probe macro lens at f/2.8, volumetric light scattering through cytoplasm, gentle pulsing rhythm like a resting heartbeat, palette of deep black, warm amber, faint teal rim light, ultra-slow graceful motion, seamless ambient loop, no text, photoreal scientific beauty, 8K detail",
+    "command": "higgsfield generate create seedance_2_0 --prompt \"Extreme macro cinematography of a single living human cell suspended in absolute darkness, bioluminescent membrane glowing soft amber-gold from within, organelles drifting like slow constellations, shallow depth of field as if shot through a 100mm probe macro lens at f/2.8, volumetric light scattering through cytoplasm, gentle pulsing rhythm like a resting heartbeat, palette of deep black, warm amber, faint teal rim light, ultra-slow graceful motion, seamless ambient loop, no text, photoreal scientific beauty, 8K detail\" --duration 10 --aspect_ratio 16:9 --wait"
+  },
+  {
+    "id": "scene1-cell-still",
+    "scene": 1,
+    "type": "image",
+    "file": "/assets/higgsfield/scene1-cell-still.png",
+    "model": "gpt_image_2",
+    "prompt": "Hyper-detailed macro still of a single luminous human cell floating in pure black void, glowing from within like a tiny golden lantern, translucent membrane with soft subsurface scattering, faint orbiting particles of light, scientific-photography-meets-fine-art, deep black background with warm amber core and subtle cyan edge glow, centered composition with generous negative space, no text",
+    "command": "higgsfield generate create gpt_image_2 --prompt \"Hyper-detailed macro still of a single luminous human cell floating in pure black void, glowing from within like a tiny golden lantern, translucent membrane with soft subsurface scattering, faint orbiting particles of light, scientific-photography-meets-fine-art, deep black background with warm amber core and subtle cyan edge glow, centered composition with generous negative space, no text\" --aspect_ratio 16:9 --wait"
+  },
+  {
+    "id": "scene2-dna-loop",
+    "scene": 2,
+    "type": "video",
+    "file": "/assets/higgsfield/scene2-dna-loop.mp4",
+    "model": "seedance_2_0",
+    "prompt": "Cinematic slow camera drift along a vast DNA double helix assembling itself in dark space, individual base pairs clicking softly into place and illuminating one by one like windows lighting at dusk, strands rendered in glass and warm gold light, faint indigo nebula haze in background, anamorphic lens flares, 35mm cinema look with gentle handheld float, seamless loop, palette of midnight blue, gold, soft white, elegant and reverent mood, no text",
+    "command": "higgsfield generate create seedance_2_0 --prompt \"Cinematic slow camera drift along a vast DNA double helix assembling itself in dark space, individual base pairs clicking softly into place and illuminating one by one like windows lighting at dusk, strands rendered in glass and warm gold light, faint indigo nebula haze in background, anamorphic lens flares, 35mm cinema look with gentle handheld float, seamless loop, palette of midnight blue, gold, soft white, elegant and reverent mood, no text\" --duration 10 --aspect_ratio 16:9 --wait"
+  },
+  {
+    "id": "scene2-dna-still",
+    "scene": 2,
+    "type": "image",
+    "file": "/assets/higgsfield/scene2-dna-still.png",
+    "model": "gpt_image_2",
+    "prompt": "Fine-art render of a DNA double helix made of luminous glass and gold thread spiraling diagonally through darkness, select gene segments glowing brighter like illuminated jewels, soft depth-of-field bokeh of drifting light motes, midnight indigo background, museum-quality lighting, no text, ultra high detail",
+    "command": "higgsfield generate create gpt_image_2 --prompt \"Fine-art render of a DNA double helix made of luminous glass and gold thread spiraling diagonally through darkness, select gene segments glowing brighter like illuminated jewels, soft depth-of-field bokeh of drifting light motes, midnight indigo background, museum-quality lighting, no text, ultra high detail\" --aspect_ratio 16:9 --wait"
+  },
+  {
+    "id": "transition-cell-dna",
+    "scene": 1,
+    "type": "video",
+    "file": "/assets/higgsfield/transition-cell-dna.mp4",
+    "model": "seedance_2_0",
+    "prompt": "Seamless cinematic morph transition: camera pushes into the glowing nucleus of a single golden cell, membrane dissolving into particles of light that reorganize into the spiraling rungs of a DNA double helix, continuous forward dolly motion, volumetric god rays, palette shifting from warm amber into indigo-gold, dreamlike scientific elegance, no cuts, no text, 8 seconds",
+    "command": "higgsfield generate create seedance_2_0 --prompt \"Seamless cinematic morph transition: camera pushes into the glowing nucleus of a single golden cell, membrane dissolving into particles of light that reorganize into the spiraling rungs of a DNA double helix, continuous forward dolly motion, volumetric god rays, palette shifting from warm amber into indigo-gold, dreamlike scientific elegance, no cuts, no text, 8 seconds\" --duration 8 --aspect_ratio 16:9 --wait"
+  },
+  {
+    "id": "transition-dna-bloodstream",
+    "scene": 2,
+    "type": "video",
+    "file": "/assets/higgsfield/transition-dna-bloodstream.mp4",
+    "model": "seedance_2_0",
+    "prompt": "Seamless transition shot: DNA helix strands unwind and dissolve into a rushing crimson current, camera swept forward into a first-person bloodstream flythrough, translucent red cells streaming past like lanterns in a river, warm backlit glow, continuous fluid motion with no cuts, cinematic anamorphic depth, palette of deep crimson, rose-gold, black, no text, 8 seconds",
+    "command": "higgsfield generate create seedance_2_0 --prompt \"Seamless transition shot: DNA helix strands unwind and dissolve into a rushing crimson current, camera swept forward into a first-person bloodstream flythrough, translucent red cells streaming past like lanterns in a river, warm backlit glow, continuous fluid motion with no cuts, cinematic anamorphic depth, palette of deep crimson, rose-gold, black, no text, 8 seconds\" --duration 8 --aspect_ratio 16:9 --wait"
+  },
+  {
+    "id": "scene3-bloodstream-loop",
+    "scene": 3,
+    "type": "video",
+    "file": "/assets/higgsfield/scene3-bloodstream-loop.mp4",
+    "model": "seedance_2_0",
+    "prompt": "First-person POV flythrough inside a living bloodstream, gliding forward through a warm translucent vessel, red blood cells and shimmering nutrient particles drifting past in parallax layers, soft volumetric backlight as if sunlight through skin, gentle current motion, medical-grade realism with painterly warmth, palette of crimson, coral, amber glow against darkness, seamless 12 second loop, steady dreamy speed, no text",
+    "command": "higgsfield generate create seedance_2_0 --prompt \"First-person POV flythrough inside a living bloodstream, gliding forward through a warm translucent vessel, red blood cells and shimmering nutrient particles drifting past in parallax layers, soft volumetric backlight as if sunlight through skin, gentle current motion, medical-grade realism with painterly warmth, palette of crimson, coral, amber glow against darkness, seamless 12 second loop, steady dreamy speed, no text\" --duration 12 --aspect_ratio 16:9 --wait"
+  },
+  {
+    "id": "scene4-hormone-loop",
+    "scene": 4,
+    "type": "video",
+    "file": "/assets/higgsfield/scene4-hormone-loop.mp4",
+    "model": "seedance_2_0",
+    "prompt": "Abstract cinematic visualization of the endocrine system: branching golden pathways of light igniting across a dark human silhouette seen from a respectful distance, signals traveling like slow shooting stars along luminous filaments, warm honey-gold and champagne light against deep charcoal, elegant particle trails, macro-to-wide breathing camera move, seamless ambient loop, luxurious and hopeful mood, no text",
+    "command": "higgsfield generate create seedance_2_0 --prompt \"Abstract cinematic visualization of the endocrine system: branching golden pathways of light igniting across a dark human silhouette seen from a respectful distance, signals traveling like slow shooting stars along luminous filaments, warm honey-gold and champagne light against deep charcoal, elegant particle trails, macro-to-wide breathing camera move, seamless ambient loop, luxurious and hopeful mood, no text\" --duration 10 --aspect_ratio 16:9 --wait"
+  },
+  {
+    "id": "scene4-vitality-still",
+    "scene": 4,
+    "type": "image",
+    "file": "/assets/higgsfield/scene4-vitality-still.png",
+    "model": "gpt_image_2",
+    "prompt": "Soul-style editorial lifestyle photograph: a vibrant confident woman in her 50s laughing in golden-hour light on a Florida coastal terrace, linen clothing, wind in hair, sun flare through palms, authentic candid energy, shot on 85mm f/1.4, warm Kodak Portra palette, luxurious wellness magazine aesthetic, no text, no logos",
+    "command": "higgsfield generate create gpt_image_2 --prompt \"Soul-style editorial lifestyle photograph: a vibrant confident woman in her 50s laughing in golden-hour light on a Florida coastal terrace, linen clothing, wind in hair, sun flare through palms, authentic candid energy, shot on 85mm f/1.4, warm Kodak Portra palette, luxurious wellness magazine aesthetic, no text, no logos\" --aspect_ratio 4:5 --wait"
+  },
+  {
+    "id": "scene5-movement-loop",
+    "scene": 5,
+    "type": "video",
+    "file": "/assets/higgsfield/scene5-movement-loop.mp4",
+    "model": "seedance_2_0",
+    "prompt": "Cinematic slow-motion of a fit man in his 40s running along the shoreline at dawn, backlit by low rose-gold sun, fine spray of water catching light around each stride, 120fps super-slow-motion feel, telephoto compression, palette of blush, amber, soft slate, triumphant yet serene mood, seamless loop, editorial sports-luxury cinematography, no text",
+    "command": "higgsfield generate create seedance_2_0 --prompt \"Cinematic slow-motion of a fit man in his 40s running along the shoreline at dawn, backlit by low rose-gold sun, fine spray of water catching light around each stride, 120fps super-slow-motion feel, telephoto compression, palette of blush, amber, soft slate, triumphant yet serene mood, seamless loop, editorial sports-luxury cinematography, no text\" --duration 10 --aspect_ratio 16:9 --wait"
+  },
+  {
+    "id": "scene5-metabolic-still",
+    "scene": 5,
+    "type": "image",
+    "file": "/assets/higgsfield/scene5-metabolic-still.png",
+    "model": "gpt_image_2",
+    "prompt": "Cinematic still embodying metabolic transformation: silhouette of a person mid-stride dissolving at the edges into rising particles of warm light, dawn gradient sky from deep plum to peach, minimalist composition with vast negative space, fine-art wellness poster aesthetic, no text",
+    "command": "higgsfield generate create gpt_image_2 --prompt \"Cinematic still embodying metabolic transformation: silhouette of a person mid-stride dissolving at the edges into rising particles of warm light, dawn gradient sky from deep plum to peach, minimalist composition with vast negative space, fine-art wellness poster aesthetic, no text\" --aspect_ratio 16:9 --wait"
+  },
+  {
+    "id": "scene6-regeneration-loop",
+    "scene": 6,
+    "type": "video",
+    "file": "/assets/higgsfield/scene6-regeneration-loop.mp4",
+    "model": "seedance_2_0",
+    "prompt": "Macro time-lapse of cellular regeneration: clusters of luminous cells dividing and renewing in soft pearl and sage light, new cells blooming like flowers opening, gentle camera orbit, airy bright background fog instead of darkness, palette of ivory, sea-glass green, warm gold, hopeful renewal mood, seamless ambient loop, scientific elegance, no text",
+    "command": "higgsfield generate create seedance_2_0 --prompt \"Macro time-lapse of cellular regeneration: clusters of luminous cells dividing and renewing in soft pearl and sage light, new cells blooming like flowers opening, gentle camera orbit, airy bright background fog instead of darkness, palette of ivory, sea-glass green, warm gold, hopeful renewal mood, seamless ambient loop, scientific elegance, no text\" --duration 10 --aspect_ratio 16:9 --wait"
+  },
+  {
+    "id": "scene6-activeaging-still",
+    "scene": 6,
+    "type": "image",
+    "file": "/assets/higgsfield/scene6-activeaging-still.png",
+    "model": "gpt_image_2",
+    "prompt": "Editorial photograph of a radiant silver-haired couple in their 60s cycling along a palm-lined Boca Raton path in morning light, genuine laughter, crisp white and sand-toned athleisure, sun-kissed skin, shallow depth of field, premium lifestyle magazine quality, warm bright palette, no text, no logos",
+    "command": "higgsfield generate create gpt_image_2 --prompt \"Editorial photograph of a radiant silver-haired couple in their 60s cycling along a palm-lined Boca Raton path in morning light, genuine laughter, crisp white and sand-toned athleisure, sun-kissed skin, shallow depth of field, premium lifestyle magazine quality, warm bright palette, no text, no logos\" --aspect_ratio 4:5 --wait"
+  },
+  {
+    "id": "scene7-almated-still",
+    "scene": 7,
+    "type": "image",
+    "file": "/assets/higgsfield/scene7-almated-still.png",
+    "model": "gpt_image_2",
+    "prompt": "Luxury product beauty shot of the Alma TED hair-restoration device on seamless black, dramatic studio lighting with a single warm key light and crisp white rim light tracing the device silhouette, subtle reflection on glossy black surface, floating motes of golden light, Apple-product-launch aesthetic, ultra-sharp, no text. NOTE: pass the client's real Alma TED reference photo via --image for fidelity.",
+    "command": "higgsfield generate create gpt_image_2 --prompt \"Luxury product beauty shot of the Alma TED hair-restoration device on seamless black, dramatic studio lighting with a single warm key light and crisp white rim light tracing the device silhouette, subtle reflection on glossy black surface, floating motes of golden light, Apple-product-launch aesthetic, ultra-sharp, no text\" --image ./reference/alma-ted.jpg --aspect_ratio 4:5 --wait",
+    "note": "Client-supplied device photos (Alma Soprano Titanium, Alma TED, Opus, Alma Harmony) should be placed in higgsfield/reference/ and passed as --image references when generating device shots."
+  },
+  {
+    "id": "scene7-renewal-loop",
+    "scene": 7,
+    "type": "video",
+    "file": "/assets/higgsfield/scene7-renewal-loop.mp4",
+    "model": "seedance_2_0",
+    "prompt": "Abstract regenerative renewal loop: fine threads of pearlescent light weaving themselves into stronger glowing fibers against a soft champagne haze, like tissue knitting in fast-motion poetry, delicate particle shimmer, bright airy palette of ivory, rose-gold, platinum, seamless ambient loop, premium med-tech elegance, no text",
+    "command": "higgsfield generate create seedance_2_0 --prompt \"Abstract regenerative renewal loop: fine threads of pearlescent light weaving themselves into stronger glowing fibers against a soft champagne haze, like tissue knitting in fast-motion poetry, delicate particle shimmer, bright airy palette of ivory, rose-gold, platinum, seamless ambient loop, premium med-tech elegance, no text\" --duration 10 --aspect_ratio 16:9 --wait"
+  },
+  {
+    "id": "scene8-walkthrough-video",
+    "scene": 8,
+    "type": "video",
+    "file": "/assets/higgsfield/scene8-walkthrough-video.mp4",
+    "model": "seedance_2_0",
+    "prompt": "Cinematic first-person walkthrough of a luxury medical spa in Boca Raton: steady gimbal glide toward tall frosted-glass doors that part silently to reveal a warm sunlit reception with travertine, brass accents, soft linen seating, orchids, diffused afternoon light pouring through sheer curtains, gentle dust motes in light beams, 24mm wide lens, hotel-lobby-meets-clinic serenity, warm ivory and gold palette, 12 seconds, no people in frame, no text",
+    "command": "higgsfield generate create seedance_2_0 --prompt \"Cinematic first-person walkthrough of a luxury medical spa in Boca Raton: steady gimbal glide toward tall frosted-glass doors that part silently to reveal a warm sunlit reception with travertine, brass accents, soft linen seating, orchids, diffused afternoon light pouring through sheer curtains, gentle dust motes in light beams, 24mm wide lens, hotel-lobby-meets-clinic serenity, warm ivory and gold palette, 12 seconds, no people in frame, no text\" --duration 12 --aspect_ratio 16:9 --wait"
+  },
+  {
+    "id": "scene8-reception-still",
+    "scene": 8,
+    "type": "image",
+    "file": "/assets/higgsfield/scene8-reception-still.png",
+    "model": "gpt_image_2",
+    "prompt": "Soul-location style interior photograph: luxury wellness clinic reception in Boca Raton, curved travertine desk, brass pendant lighting, white orchids, sheer curtains diffusing Florida sunlight, warm minimal palette of ivory, sand, antique gold, architectural digest quality, 24mm, no people, no text",
+    "command": "higgsfield generate create gpt_image_2 --prompt \"Soul-location style interior photograph: luxury wellness clinic reception in Boca Raton, curved travertine desk, brass pendant lighting, white orchids, sheer curtains diffusing Florida sunlight, warm minimal palette of ivory, sand, antique gold, architectural digest quality, 24mm, no people, no text\" --aspect_ratio 3:2 --wait"
+  },
+  {
+    "id": "scene8-consult-still",
+    "scene": 8,
+    "type": "image",
+    "file": "/assets/higgsfield/scene8-consult-still.png",
+    "model": "gpt_image_2",
+    "prompt": "Soul-location style interior photograph: intimate consultation room in a luxury longevity clinic, two soft bouclé chairs angled toward each other beside a sunlit window, warm wood paneling, a single sculptural lamp, calm and unhurried atmosphere, ivory and caramel palette, editorial interior photography, no people, no text",
+    "command": "higgsfield generate create gpt_image_2 --prompt \"Soul-location style interior photograph: intimate consultation room in a luxury longevity clinic, two soft bouclé chairs angled toward each other beside a sunlit window, warm wood paneling, a single sculptural lamp, calm and unhurried atmosphere, ivory and caramel palette, editorial interior photography, no people, no text\" --aspect_ratio 3:2 --wait"
+  },
+  {
+    "id": "scene8-suite-still",
+    "scene": 8,
+    "type": "image",
+    "file": "/assets/higgsfield/scene8-suite-still.png",
+    "model": "gpt_image_2",
+    "prompt": "Soul-location style interior photograph: serene treatment suite in a luxury medical spa, plush treatment chair draped in white linen, advanced aesthetic device softly out of focus in background, dimmable warm sconces, eucalyptus stem in ceramic vase, spa-quiet mood, palette of warm white, oat, brushed gold, no people, no text",
+    "command": "higgsfield generate create gpt_image_2 --prompt \"Soul-location style interior photograph: serene treatment suite in a luxury medical spa, plush treatment chair draped in white linen, advanced aesthetic device softly out of focus in background, dimmable warm sconces, eucalyptus stem in ceramic vase, spa-quiet mood, palette of warm white, oat, brushed gold, no people, no text\" --aspect_ratio 3:2 --wait"
+  },
+  {
+    "id": "scene9-portrait-env-still",
+    "scene": 9,
+    "type": "image",
+    "file": "/assets/higgsfield/scene9-portrait-env-still.png",
+    "model": "gpt_image_2",
+    "prompt": "Elegant warm environmental portrait setting for a physician: soft window light falling across a refined consultation office, blurred warm bokeh of books and orchids, space intentionally composed for a portrait subject at right third, golden-hour interior glow, Annie Leibovitz warmth, palette of cream, honey, sage, no text. NOTE: replace with a real photograph of Dr. Merna Matilsky before launch.",
+    "command": "higgsfield generate create gpt_image_2 --prompt \"Elegant warm environmental portrait setting for a physician: soft window light falling across a refined consultation office, blurred warm bokeh of books and orchids, space intentionally composed for a portrait subject at right third, golden-hour interior glow, Annie Leibovitz warmth, palette of cream, honey, sage, no text\" --aspect_ratio 4:5 --wait",
+    "note": "Placeholder environment only — must be replaced with a real photo of Dr. Merna Matilsky."
+  },
+  {
+    "id": "scene10-lightbloom-loop",
+    "scene": 10,
+    "type": "video",
+    "file": "/assets/higgsfield/scene10-lightbloom-loop.mp4",
+    "model": "seedance_2_0",
+    "prompt": "Radiant white-gold light bloom: slow expanding aurora of warm white light with delicate gold filaments breathing outward from center, like sunrise through silk, overexposed dreamy highlights, gentle lens bloom and soft chromatic shimmer, near-white background, palette of white, champagne, pale gold, seamless meditative loop, pure hope and arrival, no text",
+    "command": "higgsfield generate create seedance_2_0 --prompt \"Radiant white-gold light bloom: slow expanding aurora of warm white light with delicate gold filaments breathing outward from center, like sunrise through silk, overexposed dreamy highlights, gentle lens bloom and soft chromatic shimmer, near-white background, palette of white, champagne, pale gold, seamless meditative loop, pure hope and arrival, no text\" --duration 10 --aspect_ratio 16:9 --wait"
+  },
+  {
+    "id": "transition-dna-light",
+    "scene": 10,
+    "type": "video",
+    "file": "/assets/higgsfield/transition-dna-light.mp4",
+    "model": "seedance_2_0",
+    "prompt": "Finale transition: a golden DNA helix ascends and dissolves into pure radiant white light, strands unraveling into rising luminous particles that flood the frame with warm overexposure, continuous upward camera tilt, palette transitioning from gold-on-dark to blinding soft white, transcendent and triumphant, no cuts, no text, 8 seconds",
+    "command": "higgsfield generate create seedance_2_0 --prompt \"Finale transition: a golden DNA helix ascends and dissolves into pure radiant white light, strands unraveling into rising luminous particles that flood the frame with warm overexposure, continuous upward camera tilt, palette transitioning from gold-on-dark to blinding soft white, transcendent and triumphant, no cuts, no text, 8 seconds\" --duration 8 --aspect_ratio 16:9 --wait"
+  }
+]
