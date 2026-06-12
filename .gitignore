@@ -1,0 +1,13 @@
+# RuFlo / claude-flow runtime state (recreated by `ruflo init --start-all`)
+.swarm/
+ruvector.db
+.claude/memory.db
+.claude-flow/daemon-state.json
+.claude-flow/daemon.pid
+.claude-flow/swarm/
+.claude-flow/metrics/codebase-map.json
+.claude-flow/metrics/security-audit.json
+
+# Dependencies & logs
+node_modules/
+*.log
