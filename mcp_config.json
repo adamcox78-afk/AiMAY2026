@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "gmail": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-gmail"],
+      "env": {
+        "GMAIL_CREDENTIALS_PATH": "${GMAIL_CREDENTIALS_PATH}",
+        "GMAIL_TOKEN_PATH": "${GMAIL_TOKEN_PATH}"
+      }
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp"],
+      "env": {}
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "./alma/knowledge"],
+      "env": {}
+    }
+  }
+}
