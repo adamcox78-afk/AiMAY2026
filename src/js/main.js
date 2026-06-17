@@ -1,5 +1,6 @@
 /* ===========================================================
-   main.js — wires scroll, the DNA helix, and content reveals.
+   main.js — wires scroll, the DNA helix (3D with 2D fallback),
+   and content reveals.
    =========================================================== */
 import { DNAHelix } from './helix.js';
 
@@ -9,20 +10,17 @@ const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const nav = $('#nav');
 
-/* ----------------------- DNA helix ----------------------- */
+function supportsWebGL() {
+  try {
+    const c = document.createElement('canvas');
+    return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
+  } catch { return false; }
+}
+
 const canvas = $('#helix-canvas');
 const chapters = $$('.chapter');
 const accents = chapters.map((c) => c.dataset.accent || 'cyan');
-
-const helix = new DNAHelix(canvas, { stations: chapters.length, accents });
-helix.setReducedMotion(reducedMotion);
-helix.start();
-
-let resizeTimer;
-window.addEventListener('resize', () => {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(() => helix.resize(), 150);
-});
+let helix = null;   // assigned async below; usages are guarded with helix?.
 
 /* --------------- scroll -> camera depth + rail ----------- */
 const journey = $('#journey');
@@ -30,20 +28,16 @@ const railFill = $('#rail-fill');
 const railPct = $('#rail-pct');
 
 function onScroll() {
-  // journey progress drives the camera through the helix
   if (journey) {
     const rect = journey.getBoundingClientRect();
     const total = journey.offsetHeight || 1;
     const p = clamp((window.innerHeight * 0.5 - rect.top) / total, 0, 1);
-    helix.setProgress(p);
+    helix?.setProgress(p);
   }
-  // whole-page progress drives the genome rail
   const docH = document.documentElement.scrollHeight - window.innerHeight;
   const pct = docH > 0 ? clamp(window.scrollY / docH, 0, 1) : 0;
   if (railFill) railFill.style.height = `${(pct * 100).toFixed(1)}%`;
   if (railPct) railPct.textContent = `${String(Math.round(pct * 100)).padStart(2, '0')}%`;
-
-  // nav background after leaving the hero
   nav.classList.toggle('is-scrolled', window.scrollY > 40);
 }
 
@@ -54,19 +48,22 @@ window.addEventListener('scroll', () => {
   requestAnimationFrame(() => { onScroll(); ticking = false; });
 }, { passive: true });
 
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => helix?.resize(), 150);
+});
+
 /* ------------- chapter reveal + helix focus -------------- */
 const observer = new IntersectionObserver((entries) => {
-  // reveal each chapter once it crosses, and focus the most-visible one
+  entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('is-active'); });
   let best = null;
-  entries.forEach((e) => {
-    if (e.isIntersecting) e.target.classList.add('is-active');
-  });
   $$('.chapter').forEach((ch) => {
     const r = ch.getBoundingClientRect();
     const center = Math.abs(r.top + r.height / 2 - window.innerHeight / 2);
     if (!best || center < best.dist) best = { el: ch, dist: center };
   });
-  if (best) helix.setFocus(Number(best.el.dataset.station) || 0);
+  if (best) helix?.setFocus(Number(best.el.dataset.station) || 0);
 }, { threshold: [0.25, 0.5, 0.75], rootMargin: '-10% 0px -10% 0px' });
 chapters.forEach((c) => observer.observe(c));
 
@@ -130,4 +127,26 @@ form?.addEventListener('submit', (e) => {
 
 /* --------------------------- misc ------------------------ */
 $('#year').textContent = new Date().getFullYear();
-onScroll();
+
+/* ---------- boot the helix: 3D (WebGL) with 2D fallback --- */
+(async () => {
+  if (!reducedMotion && supportsWebGL()) {
+    try {
+      const { DNAHelix3D } = await import('./helix3d.js');
+      const h = new DNAHelix3D(canvas, { stations: chapters.length, accents });
+      await h.ready;                       // throws if init fails -> fall back
+      helix = h;
+      document.documentElement.classList.add('webgl');
+    } catch (err) {
+      console.warn('[helix] 3D unavailable, using 2D canvas fallback:', err);
+      helix = null;
+    }
+  }
+  if (!helix) {
+    helix = new DNAHelix(canvas, { stations: chapters.length, accents });
+    helix.setReducedMotion(reducedMotion);
+  }
+  helix.start();
+  helix.setFocus(0);
+  onScroll();
+})();

@@ -15,6 +15,17 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- Three.js for the WebGL helix (loads from CDN; the site falls back to a
+       self-contained 2D canvas helix if this is unreachable). Pin the version. -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
   <script>document.documentElement.classList.replace('no-js', 'js');</script>
 </head>
 <body>
