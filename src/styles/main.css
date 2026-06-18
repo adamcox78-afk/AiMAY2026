@@ -1,6 +1,6 @@
 /* =====================================================================
    Soprano Titanium — base, snow, content sections, responsive
-   (hero stage + ice wordmark live in hero.css)
+   (hero stage + cinematic scroll sequence live in hero.css)
    ===================================================================== */
 
 :root {
@@ -114,7 +114,12 @@ a { color: inherit; }
   margin: 0 auto;
 }
 .reveal-device { position: relative; display: flex; justify-content: center; }
-.device-large { width: min(320px, 70vw); height: auto; filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.55)); }
+.device-large, .device-photo { width: min(300px, 66vw); height: auto; display: block; filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.55)); }
+/* a couple of meltwater drips on the freed device */
+.rd-drip { position: absolute; width: 5px; border-radius: 0 0 999px 999px;
+  background: linear-gradient(180deg, rgba(223, 241, 255, 0.9), rgba(127, 199, 240, 0)); }
+.rd-drip.d1 { height: 40px; left: 45%; bottom: 20%; }
+.rd-drip.d2 { height: 26px; left: 57%; bottom: 13%; }
 .reveal-glow {
   position: absolute;
   inset: 10% 0 0 0;
@@ -123,6 +128,33 @@ a { color: inherit; }
   z-index: -1;
 }
 .reveal-copy h2 { font-size: clamp(2.4rem, 6vw, 4rem); margin: 0.2rem 0 1rem; }
+
+/* =====================================================================
+   BRAND logo (top) + Alma family + footer logo
+   (Alma artwork is dark purple on transparent → inverted to white for dark UI)
+   ===================================================================== */
+.brand { position: absolute; top: 1.4rem; left: 1.6rem; z-index: 50; display: block; line-height: 0; }
+.brand img { width: clamp(78px, 9vw, 116px); height: auto; filter: brightness(0) invert(1); opacity: 0.9; }
+
+.family { position: relative; z-index: 2; max-width: var(--maxw); margin: 0 auto; padding: clamp(3rem, 9vh, 7rem) 6vw; }
+.family-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.4rem; }
+.fam-card {
+  text-align: center;
+  background: linear-gradient(160deg, rgba(234, 246, 255, 0.08), rgba(127, 199, 240, 0.03));
+  border: 1px solid rgba(191, 230, 255, 0.14);
+  border-radius: 18px;
+  padding: 1.6rem;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+.fam-card:hover { transform: translateY(-6px); border-color: rgba(84, 227, 214, 0.4); }
+.fam-img { height: 210px; display: grid; place-items: center; margin-bottom: 1rem; }
+.fam-img img { max-height: 210px; max-width: 82%; width: auto; height: auto; object-fit: contain; filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.45)); }
+.fam-card h3 { font-size: 1.15rem; margin-bottom: 0.35rem; }
+.fam-card p { color: var(--muted); font-size: 0.92rem; font-weight: 300; }
+
+.cta-logo { display: block; width: clamp(120px, 16vw, 176px); height: auto; margin: 0 auto 1.6rem; filter: brightness(0) invert(1); opacity: 0.9; }
 
 /* =====================================================================
    FEATURES
