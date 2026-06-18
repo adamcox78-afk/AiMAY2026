@@ -1,174 +1,70 @@
 /* =====================================================================
-   Soprano Titanium — one continuous icy descent (igloo-style journey).
-   No boxed sections: a single fixed glacial backdrop runs the whole page
-   while "moments" surface as you scroll. Pinned hero lives in hero.css.
+   Soprano Titanium — base, backdrop, HUD, footer, fallback.
+   The first-person fly-through world lives in fly.css.
    ===================================================================== */
 
 :root {
   --ink: #06101c;
   --ice-1: #f4fbff; --ice-2: #bfe6ff; --ice-3: #7fc7f0; --ice-4: #4aa3d6;
-  --teal: #54e3d6;
-  --muted: #9fc0d8;
-  --maxw: 1120px;
-  --melt: 0;   /* hero descent progress (scene.js) */
-  --depth: 0;  /* whole-page scroll progress (scene.js) */
+  --teal: #54e3d6; --muted: #9fc0d8; --maxw: 1120px;
+  --p: 0;   /* forward-travel progress, set by fly.js */
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  background: #02080f;
-  color: var(--ice-1);
-  line-height: 1.6;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
+  background: #02080f; color: var(--ice-1); line-height: 1.6;
+  overflow-x: hidden; -webkit-font-smoothing: antialiased;
 }
 h1, h2, h3 { line-height: 1.04; letter-spacing: -0.02em; }
 a { color: inherit; }
 
-/* ---- the one continuous backdrop; darkens as you descend ---- */
 .glacier { position: fixed; inset: 0; z-index: -2;
-  background:
-    radial-gradient(120% 75% at 50% -8%, #18374f 0%, transparent 55%),
-    linear-gradient(180deg, #0b2034 0%, #081a2b 28%, #05121f 58%, #02080f 100%);
-}
-.glacier::after { content: ""; position: absolute; inset: 0;
-  background: #01060c; opacity: calc(var(--depth) * 0.55); }
-
+  background: radial-gradient(120% 70% at 50% 0%, #16344e 0%, transparent 55%), linear-gradient(180deg, #0a1e30 0%, #06121f 60%, #02080f 100%); }
 #snow { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 40; }
 
-/* ---- depth gauge (vertical, right edge) ---- */
-.depth-rail { position: fixed; top: 0; right: 0; width: 3px; height: 100%; background: rgba(255,255,255,0.06); z-index: 60; }
-.depth-rail span { display: block; width: 100%; height: 0; background: linear-gradient(180deg, var(--ice-3), var(--teal)); box-shadow: 0 0 12px var(--teal); }
-
-/* ---- brand (persistent) ---- */
 .brand { position: fixed; top: 1.3rem; left: 1.5rem; z-index: 55; line-height: 0; }
 .brand img { width: clamp(76px, 9vw, 112px); height: auto; filter: brightness(0) invert(1); opacity: 0.9; }
 
-/* ---- shared bits ---- */
-.btn { display: inline-block; margin-top: 1.7rem; padding: 0.85rem 1.9rem; border-radius: 999px;
+.btn { display: inline-block; margin-top: 1.6rem; padding: 0.85rem 1.9rem; border-radius: 999px;
   background: linear-gradient(135deg, var(--ice-2), var(--ice-4)); color: #05121d; font-weight: 800;
-  letter-spacing: 0.02em; text-decoration: none; box-shadow: 0 10px 30px rgba(74,163,214,0.35);
-  transition: transform 0.25s ease, box-shadow 0.25s ease; }
+  text-decoration: none; box-shadow: 0 10px 30px rgba(74,163,214,0.35); transition: transform 0.25s ease, box-shadow 0.25s ease; }
 .btn:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(84,227,214,0.45); }
-.btn.ghost { background: transparent; color: var(--ice-1); border: 1px solid rgba(191,230,255,0.5); box-shadow: none; }
-.btn.ghost:hover { border-color: var(--teal); background: rgba(84,227,214,0.08); }
 .btn.big { font-size: 1.15rem; padding: 1.05rem 2.4rem; }
 
-.eyebrow { text-transform: uppercase; letter-spacing: 0.32em; font-size: 0.72rem; font-weight: 600; color: var(--muted); margin-bottom: 0.9rem; }
-.eyebrow.accent, .accent { color: var(--teal); }
-.lede { font-size: clamp(1.05rem, 1.7vw, 1.3rem); color: #d6ecfb; font-weight: 300; max-width: 48ch; }
+/* ---- HUD overlays (fixed, above the 3D world) ---- */
+.hud-title { position: fixed; inset: 0; z-index: 5; display: grid; place-items: center; text-align: center;
+  pointer-events: none; opacity: calc(1 - min(1, var(--p) * 5)); }
+.hud-title .t-sub { display: block; font-weight: 800; text-transform: uppercase; letter-spacing: 0.42em; text-indent: 0.42em;
+  font-size: clamp(0.7rem, 1.8vw, 1.05rem); color: var(--ice-2); }
+.hud-title .t-main { display: block; font-family: 'Anton', 'Arial Black', sans-serif; font-size: clamp(2.4rem, 8vw, 5.5rem);
+  color: #eef7ff; text-shadow: 0 6px 34px rgba(0,0,0,0.6); }
+.hud-hint { position: fixed; bottom: 4vh; left: 50%; transform: translateX(-50%); z-index: 6;
+  font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ice-2);
+  pointer-events: none; opacity: calc(1 - var(--p) * 8); }
+.hud-badge { position: fixed; left: 14px; bottom: 14px; z-index: 70; font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.72rem; color: #bfefff; background: rgba(2,8,15,0.74); border: 1px solid rgba(127,199,240,0.3);
+  border-radius: 999px; padding: 0.35rem 0.7rem; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); pointer-events: none; }
 
-.moment-head { text-align: center; margin: 0 auto 3.2rem; max-width: 22ch; }
-.moment-head h2 { font-size: clamp(1.9rem, 5vw, 3.2rem); }
-
-/* =====================================================================
-   II · THE THAW — device emerges
-   ===================================================================== */
-.moment { min-height: 94vh; display: flex; align-items: center; justify-content: center; padding: 9vh 6vw; position: relative; z-index: 1; }
-.moment-reveal { gap: clamp(2rem, 5vw, 5rem); max-width: 1080px; flex-wrap: wrap; }
-.reveal-device { position: relative; flex: 1 1 280px; display: flex; justify-content: center; }
-.device-photo { width: min(300px, 72vw); height: auto; display: block; filter: drop-shadow(0 44px 70px rgba(0,0,0,0.6)); }
-.reveal-glow { position: absolute; inset: 8% 0 0 0; z-index: -1; filter: blur(26px);
-  background: radial-gradient(closest-side, rgba(84,227,214,0.26), transparent 70%); }
-.rd-drip { position: absolute; width: 5px; border-radius: 0 0 999px 999px;
-  background: linear-gradient(180deg, rgba(223,241,255,0.9), rgba(127,199,240,0)); }
-.rd-drip.d1 { height: 40px; left: 45%; bottom: 20%; }
-.rd-drip.d2 { height: 26px; left: 57%; bottom: 13%; }
-.moment-copy { flex: 1 1 360px; max-width: 520px; }
-.moment-copy h2 { font-size: clamp(2.2rem, 6vw, 4rem); margin: 0.2rem 0 1rem; }
-
-/* =====================================================================
-   III · value beats (centred, no cards)
-   ===================================================================== */
-.beats { position: relative; z-index: 1; }
-.beat { min-height: 68vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  text-align: center; gap: 0.7rem; max-width: 760px; margin: 0 auto; padding: 6vh 6vw; }
-.beat-ic { font-size: 2.6rem; filter: drop-shadow(0 0 18px rgba(127,199,240,0.5)); }
-.beat h2 { font-size: clamp(1.9rem, 5.2vw, 3.3rem); }
-.beat p { color: #cfe4f5; font-weight: 300; font-size: clamp(1.02rem, 1.8vw, 1.28rem); max-width: 46ch; }
-
-/* =====================================================================
-   IV · the path down (descent timeline)
-   ===================================================================== */
-.path { position: relative; z-index: 1; min-height: 96vh; display: flex; flex-direction: column; justify-content: center; padding: 9vh 6vw; }
-.path-track { position: relative; max-width: 620px; margin: 0 auto; padding-left: 44px; list-style: none; }
-.path-track::before { content: ""; position: absolute; left: 15px; top: 8px; bottom: 8px; width: 2px;
-  background: linear-gradient(180deg, var(--ice-3), rgba(127,199,240,0.12)); }
-.path-track li { position: relative; margin: 0 0 3.2rem; }
-.path-track li:last-child { margin-bottom: 0; }
-.path-track li::before { content: ""; position: absolute; left: -36px; top: 5px; width: 14px; height: 14px; border-radius: 50%;
-  background: var(--ice-1); box-shadow: 0 0 0 4px rgba(127,199,240,0.22), 0 0 16px var(--teal); }
-.path-track h3 { font-size: clamp(1.2rem, 2.4vw, 1.5rem); margin-bottom: 0.35rem; }
-.path-track p { color: var(--muted); font-weight: 300; }
-
-/* =====================================================================
-   V · Titanium Lift
-   ===================================================================== */
-.lift-moment { position: relative; z-index: 1; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 10vh 6vw; overflow: hidden; }
-.lift-copy { position: relative; z-index: 1; max-width: 620px; }
-.lift-copy h2 { font-size: clamp(2.2rem, 5.5vw, 3.6rem); margin: 0.2rem 0 1rem; }
-.lift-list { list-style: none; margin: 1.6rem 0; display: grid; gap: 0.8rem; }
-.lift-list li { display: flex; align-items: center; gap: 0.8rem; color: #d6ecfb; }
-.lift-list span { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
-  background: rgba(84,227,214,0.16); color: var(--teal); font-weight: 800; flex: none; }
-.lift-aura { position: absolute; inset: 0; z-index: 0; display: grid; place-items: center; }
-.lift-aura span { position: absolute; width: 360px; height: 360px; border-radius: 50%; border: 1px solid rgba(84,227,214,0.4);
-  animation: pulse 4.2s ease-out infinite; }
-.lift-aura span:nth-child(2) { animation-delay: 1.4s; }
-.lift-aura span:nth-child(3) { animation-delay: 2.8s; }
-@keyframes pulse { 0% { transform: scale(0.55); opacity: 0.85; } 100% { transform: scale(1.7); opacity: 0; } }
-
-/* =====================================================================
-   VI · stats
-   ===================================================================== */
-.stats-moment { position: relative; z-index: 1; min-height: 78vh; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  align-items: center; gap: 2rem; max-width: 1000px; margin: 0 auto; padding: 8vh 6vw; text-align: center; }
-.stat strong { display: block; font-family: 'Anton', system-ui, sans-serif; font-size: clamp(3.2rem, 9vw, 6rem); line-height: 1;
-  background: linear-gradient(180deg, var(--ice-1), var(--ice-4)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.stat span { color: var(--muted); font-size: 0.95rem; }
-
-/* =====================================================================
-   VII · Alma family (minimal, no boxes)
-   ===================================================================== */
-.family { position: relative; z-index: 1; min-height: 90vh; display: flex; flex-direction: column; justify-content: center;
-  max-width: var(--maxw); margin: 0 auto; padding: 8vh 6vw; }
-.family-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2.4rem; }
-.fam { text-align: center; }
-.fam-img { height: 230px; display: grid; place-items: center; margin-bottom: 1rem; }
-.fam-img img { max-height: 230px; max-width: 80%; width: auto; height: auto; object-fit: contain; filter: drop-shadow(0 22px 34px rgba(0,0,0,0.5)); }
-.fam h3 { font-size: 1.15rem; margin-bottom: 0.3rem; }
-.fam p { color: var(--muted); font-weight: 300; font-size: 0.92rem; }
-
-/* =====================================================================
-   VIII · close / CTA
-   ===================================================================== */
-.close { position: relative; z-index: 1; min-height: 92vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10vh 6vw; }
+/* ---- footer / booking ---- */
+.close { position: relative; z-index: 2; min-height: 84vh; display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 12vh 6vw 8vh; background: linear-gradient(180deg, transparent, #02080f 38%); }
 .close-inner { max-width: 640px; }
-.cta-logo { display: block; width: clamp(120px, 16vw, 178px); height: auto; margin: 0 auto 1.6rem; filter: brightness(0) invert(1); opacity: 0.9; }
-.close h2 { font-size: clamp(2.4rem, 7vw, 4.5rem); margin-bottom: 0.6rem; }
-.close p { color: var(--muted); max-width: 40ch; margin: 0 auto; }
-.fine { margin: 2.4rem auto 0; font-size: 0.78rem; color: var(--muted); max-width: 52ch; }
+.close .cta-logo { display: block; width: clamp(120px, 16vw, 176px); height: auto; margin: 0 auto 1.4rem; filter: brightness(0) invert(1); opacity: 0.9; }
+.close h2 { font-size: clamp(2.2rem, 7vw, 4rem); margin-bottom: 0.5rem; }
+.close p { color: var(--muted); max-width: 42ch; margin: 0 auto; }
+.close .fine { margin: 2.2rem auto 0; font-size: 0.78rem; color: var(--muted); max-width: 52ch; }
 
-/* ---- reveal-on-scroll ---- */
-.reveal { opacity: 0; transform: translateY(42px); transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1); }
-.reveal.in-view { opacity: 1; transform: none; }
+/* ---- static fallback (reduced-motion / no-JS) ---- */
+.fly-fallback { display: none; }
+html.reduced .fly { display: none !important; }
+html.reduced .fly-fallback { display: block; }
+html.reduced .hud-title, html.reduced .hud-hint { display: none; }
+.fly-fallback { position: relative; z-index: 2; max-width: 760px; margin: 0 auto; padding: 16vh 6vw 4vh; text-align: center; }
+.fly-fallback img { width: min(260px, 60vw); height: auto; filter: drop-shadow(0 30px 50px rgba(0,0,0,0.6)); }
+.fly-fallback h1 { font-family: 'Anton', 'Arial Black', sans-serif; font-size: clamp(2.4rem, 8vw, 4.5rem); margin: 1rem 0 0.5rem; }
+.fly-fallback ul { list-style: none; display: grid; gap: 0.7rem; margin: 1.6rem auto; max-width: 46ch; color: #d6ecfb; text-align: left; }
+.fly-fallback li { padding-left: 1.4rem; position: relative; }
+.fly-fallback li::before { content: "❄"; position: absolute; left: 0; color: var(--ice-3); }
 
-/* ---- responsive ---- */
-@media (max-width: 760px) {
-  .moment-reveal { flex-direction: column; text-align: center; }
-  .moment-copy { max-width: none; }
-  .reveal-device { order: -1; }
-  .lift-list { justify-items: start; }
-}
-
-/* ---- reduced motion ---- */
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .reveal { opacity: 1; transform: none; transition: none; }
-  .lift-aura span { animation: none; }
-}
-@media (forced-colors: active) {
-  .stat strong { color: CanvasText; -webkit-text-fill-color: currentColor; }
-}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
