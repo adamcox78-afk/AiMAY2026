@@ -34,8 +34,12 @@
     radial-gradient(120% 90% at 50% 8%, transparent 40%, rgba(3, 12, 22, 0.85) 100%),
     linear-gradient(180deg, rgba(6, 16, 28, calc(0.06 + var(--melt) * 0.4)), rgba(6, 16, 28, calc(0.28 + var(--melt) * 0.45)));
 }
-/* drop-in for a real photo: <div id="backdrop" class="has-photo"> */
-.backdrop.has-photo { background: center/cover no-repeat url('../assets/ice-mountains.jpg'); }
+/* real mountain photo backdrop; carries the same dolly push-in as the SVG */
+.backdrop.has-photo {
+  background: center/cover no-repeat url('../assets/ice-mountains.webp');
+  transform: scale(calc(1 + var(--melt) * 0.25));
+  transform-origin: center;
+}
 .backdrop.has-photo .mountains { display: none; }
 
 /* ---- Wordmark ---- */

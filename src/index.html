@@ -14,6 +14,7 @@
 
   <link rel="stylesheet" href="styles/main.css" />
   <link rel="stylesheet" href="styles/hero.css" />
+  <link rel="stylesheet" href="styles/frost.css" />
 </head>
 <body>
   <!-- ===================================================================
@@ -91,6 +92,9 @@
   ==================================================================== -->
   <canvas id="snow" aria-hidden="true"></canvas>
 
+  <!-- soft frost glow creeping in from the page edges -->
+  <div class="frost-vignette" aria-hidden="true"></div>
+
   <!-- Scroll progress bar -->
   <div class="scroll-rail" aria-hidden="true"><span id="scrollFill"></span></div>
 
@@ -102,8 +106,9 @@
   <section class="hero-track" id="heroTrack" aria-label="Soprano ice sculpture hero">
     <div class="hero-stage">
 
-      <!-- Icy mountain backdrop (CSS/SVG default; swap for a photo via .has-photo) -->
-      <div class="backdrop" id="backdrop">
+      <!-- Icy mountain backdrop — real photo (assets/ice-mountains.webp) via .has-photo;
+           the inline SVG below stays as a zero-asset fallback -->
+      <div class="backdrop has-photo" id="backdrop">
         <svg class="mountains" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
           <defs>
             <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6f1fb"/><stop offset="1" stop-color="#b9d4ea"/></linearGradient>
@@ -164,7 +169,7 @@
               <!-- device frozen inside, clipped to the P shape -->
               <g clip-path="url(#pClip)">
                 <rect x="0" y="0" width="240" height="340" fill="#0b2236" />
-                <use href="#device" x="44" y="26" width="150" height="290" class="p-device" />
+                <image href="assets/soprano-titanium.png" x="34" y="16" width="186" height="300" preserveAspectRatio="xMidYMid meet" class="p-device" />
                 <!-- frosty haze over the device that clears as ice melts -->
                 <rect class="device-frost" x="0" y="0" width="240" height="340" fill="#dff1ff" />
               </g>
@@ -227,7 +232,7 @@
   <section class="reveal-hero">
     <div class="reveal-device reveal">
       <svg viewBox="0 0 260 470" class="device-large" role="img" aria-label="Soprano Titanium device, fully revealed">
-        <use href="#device" x="20" y="10" width="220" height="450" />
+        <image href="assets/soprano-titanium.png" x="0" y="0" width="260" height="470" preserveAspectRatio="xMidYMid meet" />
       </svg>
       <div class="reveal-glow" aria-hidden="true"></div>
     </div>
