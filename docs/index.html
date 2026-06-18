@@ -5,7 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#06101c" />
   <title>Soprano Titanium — Carved from Ice</title>
-  <meta name="description" content="The Soprano Titanium laser, frozen in ice high in the mountains. Scroll to move in as the ice gives way to painless, powerful, permanent hair removal powered by ICE Technology." />
+  <meta name="description" content="Descend through the ice. The Soprano Titanium laser, frozen high in the mountains, revealed as you scroll — painless, powerful, permanent hair removal powered by ICE Technology." />
+  <link rel="canonical" href="https://adamcox78-afk.github.io/AiMAY2026/" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+  <!-- social share -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Soprano Titanium — Carved from Ice" />
+  <meta property="og:description" content="Descend through the ice and meet the Soprano Titanium — painless, powerful, permanent." />
+  <meta property="og:url" content="https://adamcox78-afk.github.io/AiMAY2026/" />
+  <meta property="og:image" content="https://adamcox78-afk.github.io/AiMAY2026/assets/hero-ice.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Soprano Titanium — Carved from Ice" />
+  <meta name="twitter:image" content="https://adamcox78-afk.github.io/AiMAY2026/assets/hero-ice.jpg" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,183 +28,140 @@
   <link rel="stylesheet" href="styles/frost.css" />
 </head>
 <body>
-  <!-- Falling snow (canvas) — fixed, full-viewport -->
+  <!-- one continuous glacial backdrop for the whole descent -->
+  <div class="glacier" aria-hidden="true"></div>
   <canvas id="snow" aria-hidden="true"></canvas>
-  <!-- soft frost glow creeping in from the page edges -->
   <div class="frost-vignette" aria-hidden="true"></div>
-  <!-- scroll progress bar -->
-  <div class="scroll-rail" aria-hidden="true"><span id="scrollFill"></span></div>
+
+  <!-- depth gauge (page-scroll progress, styled as a descent meter) -->
+  <div class="depth-rail" aria-hidden="true"><span id="scrollFill"></span></div>
 
   <!-- brand -->
   <a class="brand" href="#book" aria-label="Alma — For You. For Life."><img src="assets/alma-logo.png" alt="Alma" /></a>
 
   <!-- ===================================================================
-       HERO — cinematic scroll sequence. The tall .hero-track gives scroll
-       distance; the sticky .hero-stage cross-fades + dolly-zooms between two
-       rendered frames as scripts/scene.js drives --melt (0→1):
-         far  = the ice "SOPRANO" sculpture (≈100 ft away)
-         near = the device sealed in the ice block (≈5 ft away)
+       I · THE FROZEN PEAK — pinned cinematic descent.
+       scripts/scene.js maps scroll through this tall track onto --melt(0→1):
+       the ice "SOPRANO" pulls closer, then thaws into darkness.
   ==================================================================== -->
-  <section class="hero-track" id="heroTrack" aria-label="Soprano Titanium, frozen in ice">
+  <section class="journey-hero" id="heroTrack" aria-label="Soprano Titanium, frozen in ice">
     <div class="hero-stage">
-      <div class="cine cine-far" role="img" aria-label="The word SOPRANO carved from ice in a frozen mountain valley, with the Soprano Titanium device sealed inside the ice"></div>
-      <div class="cine cine-near" aria-hidden="true"></div>
+      <div class="cine-hero" role="img" aria-label="The word SOPRANO carved from ice in a frozen mountain valley, with the Soprano Titanium device sealed inside the ice"></div>
+      <div class="hero-thaw" aria-hidden="true"></div>
       <div class="hero-grade" aria-hidden="true"></div>
 
       <div class="hero-copy">
         <h1 class="hero-title"><span class="ht-sub">Soprano</span><span class="ht-main">Titanium</span></h1>
-        <p class="hero-tag">Painless · Powerful · Permanent</p>
+        <p class="hero-tag">Frozen in the mountains — revealed as you descend</p>
       </div>
 
-      <!-- scroll-synced callouts that "go by" -->
       <div class="callouts" aria-hidden="true">
-        <p class="callout" data-from="0.05" data-to="0.28"><b>Painless</b> by design</p>
-        <p class="callout" data-from="0.28" data-to="0.50">ICE Technology — continuous <b>contact cooling</b></p>
-        <p class="callout" data-from="0.50" data-to="0.72"><b>TITANIUM</b> applicator · three wavelengths at once</p>
-        <p class="callout" data-from="0.72" data-to="0.96">The ice gives way to the <b>Soprano&nbsp;Titanium</b></p>
+        <p class="callout" data-from="0.06" data-to="0.30"><b>Painless</b> by design</p>
+        <p class="callout" data-from="0.30" data-to="0.54">ICE Technology — continuous <b>contact cooling</b></p>
+        <p class="callout" data-from="0.54" data-to="0.78"><b>TITANIUM</b> applicator · three wavelengths at once</p>
+        <p class="callout" data-from="0.78" data-to="0.97">The ice begins to give way…</p>
       </div>
 
       <div class="scroll-hint" id="scrollHint">
-        <span>scroll to move closer</span>
+        <span>descend</span>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v14M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
     </div>
   </section>
 
-  <!-- ===================================================================
-       REVEAL — the device, freed from the ice, in full clarity
-  ==================================================================== -->
-  <section class="reveal-hero">
+  <!-- II · THE THAW — the device emerges -->
+  <section class="moment moment-reveal" aria-label="The device revealed">
     <div class="reveal-device reveal">
       <img class="device-photo" src="assets/device-soprano.webp" alt="Soprano Titanium device, fully revealed" />
       <span class="rd-drip d1" aria-hidden="true"></span><span class="rd-drip d2" aria-hidden="true"></span>
       <div class="reveal-glow" aria-hidden="true"></div>
     </div>
-    <div class="reveal-copy reveal">
-      <p class="eyebrow">The ice has melted away</p>
+    <div class="moment-copy reveal">
+      <p class="eyebrow">The ice melts away</p>
       <h2>Soprano&nbsp;<span class="accent">Titanium</span></h2>
-      <p class="lede">What remains is a triple-wavelength diode platform for fast, comfortable, permanent hair reduction — across every skin tone, even tanned skin, all year round.</p>
+      <p class="lede">A triple-wavelength diode platform for fast, comfortable, permanent hair reduction — across every skin tone, even tanned skin, all year round.</p>
       <a class="btn" href="#book">Book a treatment</a>
     </div>
   </section>
 
-  <!-- ===========================  HIGHLIGHTS  ========================= -->
-  <section class="features" id="device-highlights" aria-label="Device highlights">
-    <header class="section-head reveal">
-      <p class="eyebrow">The device</p>
-      <h2>Engineered to make light feel like nothing at all</h2>
-    </header>
-    <div class="feature-grid">
-      <article class="feature reveal">
-        <div class="feature-ic">❄️</div>
-        <h3>ICE Plus cooling</h3>
-        <p>A chilled sapphire tip and continuous contact cooling protect the surface of the skin while therapeutic heat builds in the dermis — so sessions stay comfortable without numbing cream.</p>
-      </article>
-      <article class="feature reveal">
-        <div class="feature-ic">🌈</div>
-        <h3>Three wavelengths, one pulse</h3>
-        <p>755, 810 &amp; 1064&nbsp;nm fire together through the TITANIUM applicator, reaching the bulge, bulb and papilla of the follicle to treat every hair depth and colour in a single pass.</p>
-      </article>
-      <article class="feature reveal">
-        <div class="feature-ic">⚡</div>
-        <h3>Large-spot speed</h3>
-        <p>A large 4&nbsp;cm² applicator with a glide-and-pulse (SHR) technique covers more skin per second — most areas are finished in under fifteen minutes.</p>
-      </article>
-      <article class="feature reveal">
-        <div class="feature-ic">🎨</div>
-        <h3>Every skin tone, all year</h3>
-        <p>FDA-cleared and safe across the full Fitzpatrick range (I–VI), including darker and tanned skin — treatment isn't limited to winter.</p>
-      </article>
-    </div>
-  </section>
+  <!-- III · DEEPER — value beats surface one by one -->
+  <div class="beats" aria-label="Why Soprano Titanium">
+    <article class="beat reveal">
+      <span class="beat-ic">❄️</span>
+      <h2>ICE Plus cooling</h2>
+      <p>A chilled sapphire tip and continuous contact cooling shield the surface of the skin while therapeutic heat builds in the dermis — comfortable, with no numbing cream.</p>
+    </article>
+    <article class="beat reveal">
+      <span class="beat-ic">🌈</span>
+      <h2>Three wavelengths, one pulse</h2>
+      <p>755, 810 &amp; 1064&nbsp;nm fire together through the TITANIUM applicator — reaching the bulge, bulb and papilla of the follicle to treat every hair depth and colour in a single pass.</p>
+    </article>
+    <article class="beat reveal">
+      <span class="beat-ic">⚡</span>
+      <h2>Large-spot speed</h2>
+      <p>A 4&nbsp;cm² applicator gliding in motion covers more skin every second — most areas are finished in under fifteen minutes.</p>
+    </article>
+    <article class="beat reveal">
+      <span class="beat-ic">🎨</span>
+      <h2>Every skin tone, all year</h2>
+      <p>FDA-cleared and safe across the full Fitzpatrick range, I–VI, including darker and tanned skin — treatment isn't limited to winter.</p>
+    </article>
+  </div>
 
-  <!-- ===========================  WHAT TO EXPECT  ==================== -->
-  <section class="features" aria-label="What to expect">
-    <header class="section-head reveal">
+  <!-- IV · THE PATH DOWN — the treatment journey as a descent -->
+  <section class="path" aria-label="What to expect">
+    <header class="moment-head reveal">
       <p class="eyebrow">The treatment</p>
-      <h2>What your course of treatment looks like</h2>
+      <h2>What your journey looks like</h2>
     </header>
-    <div class="feature-grid">
-      <article class="feature reveal">
-        <div class="feature-ic">📅</div>
-        <h3>6–8 sessions</h3>
-        <p>Hair grows in cycles, so lasting smoothness usually takes 6–8 sessions spaced roughly 4–8 weeks apart, with occasional top-ups to maintain results.</p>
-      </article>
-      <article class="feature reveal">
-        <div class="feature-ic">⏱️</div>
-        <h3>Quick visits</h3>
-        <p>An upper lip takes a couple of minutes; larger areas like the legs or back are typically finished in under fifteen.</p>
-      </article>
-      <article class="feature reveal">
-        <div class="feature-ic">💆</div>
-        <h3>Comfortable by design</h3>
-        <p>The applicator glides in motion while the tip cools — most people describe a warm-massage sensation rather than a snap, with no numbing cream.</p>
-      </article>
-      <article class="feature reveal">
-        <div class="feature-ic">☀️</div>
-        <h3>No downtime</h3>
-        <p>There's no recovery and no peeling. Head straight back to your day — just wear SPF on treated skin that sees the sun.</p>
-      </article>
+    <ol class="path-track">
+      <li class="reveal"><h3>6–8 sessions</h3><p>Hair grows in cycles, so lasting smoothness usually takes six to eight sessions, spaced roughly 4–8 weeks apart.</p></li>
+      <li class="reveal"><h3>Quick visits</h3><p>An upper lip takes a couple of minutes; legs or a back are typically finished in under fifteen.</p></li>
+      <li class="reveal"><h3>Comfortable throughout</h3><p>The applicator glides while the tip cools — most people describe a warm-massage sensation rather than a snap.</p></li>
+      <li class="reveal"><h3>No downtime</h3><p>No recovery, no peeling. Head straight back to your day — just wear SPF on treated skin that sees the sun.</p></li>
+    </ol>
+  </section>
+
+  <!-- V · BENEATH THE SURFACE — the Titanium Lift -->
+  <section class="lift-moment" id="lift" aria-label="Titanium Lift">
+    <div class="lift-aura reveal" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="lift-copy reveal">
+      <p class="eyebrow accent">Beyond hair removal</p>
+      <h2>The <span class="accent">Titanium&nbsp;Lift</span></h2>
+      <p class="lede">Also known as Soprano Titanium Lifting, this non-invasive treatment sends the same three wavelengths deeper — from the dermis toward the SMAS — to gently heat the tissue and trigger fresh collagen, for skin that looks firmer, tighter and visibly lifted.</p>
+      <ul class="lift-list">
+        <li><span>↑</span> Collagen-stimulating deep heat — no needles or incisions</li>
+        <li><span>↑</span> Firms the jawline, neck, cheeks &amp; brow</li>
+        <li><span>↑</span> Typically 3–5 sessions, with zero downtime</li>
+      </ul>
+      <a class="btn ghost" href="#book">Ask about the Lift</a>
     </div>
   </section>
 
-  <!-- ===========================  TITANIUM LIFT  ===================== -->
-  <section class="lift" id="lift" aria-label="Titanium Lift">
-    <div class="lift-inner">
-      <div class="lift-copy reveal">
-        <p class="eyebrow accent">Beyond hair removal</p>
-        <h2>The <span class="accent">Titanium&nbsp;Lift</span></h2>
-        <p class="lede">Also known as Soprano Titanium Lifting, this non-invasive treatment sends the same three wavelengths deeper — from the dermis toward the SMAS — to gently heat the tissue and trigger fresh collagen, for skin that looks firmer, tighter and visibly lifted.</p>
-        <ul class="lift-list">
-          <li><span>↑</span> Collagen-stimulating deep heat — no needles or incisions</li>
-          <li><span>↑</span> Firms the jawline, neck, cheeks &amp; brow</li>
-          <li><span>↑</span> Typically 3–5 sessions, with zero downtime</li>
-        </ul>
-        <a class="btn ghost" href="#book">Ask about the Lift</a>
-      </div>
-      <div class="lift-visual reveal" aria-hidden="true">
-        <div class="lift-orb"></div>
-        <div class="lift-rings"><span></span><span></span><span></span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===========================  STATS  ============================= -->
-  <section class="stats" aria-label="By the numbers">
+  <!-- VI · BY THE NUMBERS -->
+  <section class="stats-moment" aria-label="By the numbers">
     <div class="stat reveal"><strong data-count="3">3</strong><span>wavelengths in every pulse</span></div>
     <div class="stat reveal"><strong data-count="15">15</strong><span>minutes, a typical session</span></div>
     <div class="stat reveal"><strong data-count="6">6</strong><span>Fitzpatrick skin types, I&ndash;VI</span></div>
     <div class="stat reveal"><strong data-count="0">0</strong><span>downtime, no numbing</span></div>
   </section>
 
-  <!-- ===========================  ALMA FAMILY  ====================== -->
+  <!-- VII · THE ALMA FAMILY -->
   <section class="family" aria-label="The Alma family">
-    <header class="section-head reveal">
+    <header class="moment-head reveal">
       <p class="eyebrow">For You. For Life.</p>
       <h2>Part of the Alma family</h2>
     </header>
-    <div class="family-grid">
-      <article class="fam-card reveal">
-        <div class="fam-img"><img src="assets/device-soprano.webp" alt="Soprano Titanium" loading="lazy" /></div>
-        <h3>Soprano Titanium</h3>
-        <p>Painless laser hair removal and the Titanium&nbsp;Lift.</p>
-      </article>
-      <article class="fam-card reveal">
-        <div class="fam-img"><img src="assets/device-harmony.png" alt="Alma Harmony" loading="lazy" /></div>
-        <h3>Alma Harmony</h3>
-        <p>A multi-application platform for skin revitalisation.</p>
-      </article>
-      <article class="fam-card reveal">
-        <div class="fam-img"><img src="assets/device-ted.png" alt="Alma TED" loading="lazy" /></div>
-        <h3>Alma TED</h3>
-        <p>Acoustic, needle-free treatment for hair &amp; scalp.</p>
-      </article>
+    <div class="family-row">
+      <article class="fam reveal"><div class="fam-img"><img src="assets/device-soprano.webp" alt="Soprano Titanium" loading="lazy" /></div><h3>Soprano Titanium</h3><p>Painless hair removal &amp; the Titanium&nbsp;Lift.</p></article>
+      <article class="fam reveal"><div class="fam-img"><img src="assets/device-harmony.png" alt="Alma Harmony" loading="lazy" /></div><h3>Alma Harmony</h3><p>A multi-application platform for skin revitalisation.</p></article>
+      <article class="fam reveal"><div class="fam-img"><img src="assets/device-ted.png" alt="Alma TED" loading="lazy" /></div><h3>Alma TED</h3><p>Acoustic, needle-free treatment for hair &amp; scalp.</p></article>
     </div>
   </section>
 
-  <!-- ===========================  CTA / FOOTER  ====================== -->
-  <footer class="cta" id="book">
-    <div class="cta-inner reveal">
+  <!-- VIII · EMERGE -->
+  <footer class="close" id="book">
+    <div class="close-inner reveal">
       <img class="cta-logo" src="assets/alma-logo.png" alt="Alma — For You. For Life." />
       <h2>Step out of the cold.</h2>
       <p>Book a consultation and feel the difference the Soprano&nbsp;Titanium makes.</p>

@@ -45,12 +45,11 @@
       }
     }
 
-    // --- overall page scroll rail ---
-    if (fill) {
-      var docH = document.documentElement.scrollHeight - window.innerHeight;
-      var pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
-      fill.style.width = pct.toFixed(2) + '%';
-    }
+    // --- whole-page descent progress: depth gauge (vertical) + --depth tint ---
+    var docH = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = docH > 0 ? window.scrollY / docH : 0;
+    root.style.setProperty('--depth', pct.toFixed(3));
+    if (fill) fill.style.height = (pct * 100).toFixed(2) + '%';
   }
 
   function onScroll() {

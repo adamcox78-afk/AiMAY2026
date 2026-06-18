@@ -1,137 +1,79 @@
 /* =====================================================================
-   Soprano Titanium — HERO: cinematic scroll sequence.
-   scripts/scene.js maps scroll through the tall .hero-track onto --melt
-   (0 → 1). We cross-fade + dolly-zoom between two rendered frames:
-     .cine-far  = the ice "SOPRANO" sculpture   (start, ~100 ft away)
-     .cine-near = the device sealed in the ice   (arrival, ~5 ft away)
+   I · THE FROZEN PEAK — pinned cinematic descent.
+   scene.js maps scroll through .journey-hero onto --melt (0 → 1):
+   we dolly down into the ice "SOPRANO", then it thaws into darkness and
+   hands off to the device emerging in the next moment.
    ===================================================================== */
 
-.hero-track { position: relative; height: 320vh; z-index: 1; }
+.journey-hero { position: relative; height: 300vh; z-index: 1; }
 .hero-stage {
   position: sticky;
   top: 0;
   height: 100vh;
+  height: 100svh;            /* avoids mobile address-bar jump */
   overflow: hidden;
   isolation: isolate;
-  background: #06101c;
+  background: #060f1b;
 }
 
-/* full-bleed cinematic frames */
-.cine {
+/* the rendered ice scene, pulled closer as we descend */
+.cine-hero {
   position: absolute;
   inset: 0;
-  background-size: cover;
-  background-position: center;
-  transform-origin: center 55%;
-  will-change: transform, opacity;
-}
-.cine-far {
-  background-image: url('../assets/hero-ice.jpg');
-  transform: scale(calc(1 + var(--melt) * 0.22));
-  opacity: calc(1 - min(1, max(0, (var(--melt) - 0.34) * 3)));
-}
-.cine-near {
-  background-image: url('../assets/hero-device-ice.jpg');
-  transform: scale(calc(1.06 + var(--melt) * 0.26));
-  opacity: min(1, max(0, (var(--melt) - 0.30) * 3));
+  background: center / cover no-repeat url('../assets/hero-ice.jpg');
+  transform: scale(calc(1.02 + var(--melt) * 0.5));
+  transform-origin: 50% 47%;
+  will-change: transform;
 }
 
-/* legibility gradient top + bottom */
-.hero-grade {
+/* the thaw: a darkening vignette that closes in as we arrive (melt > 0.6) */
+.hero-thaw {
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(6,16,28,0.45) 0%, transparent 24%, transparent 50%, rgba(6,16,28,0.82) 100%);
+  background: radial-gradient(58% 50% at 50% 47%, transparent 0%, rgba(3,9,17,0.97) 78%);
+  opacity: calc(min(1, max(0, (var(--melt) - 0.58) * 2.6)));
 }
 
-/* hero caption (real <h1> for SEO/a11y; the giant ice word lives in the art) */
+/* legibility grade top + bottom */
+.hero-grade {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, rgba(6,16,28,0.5) 0%, transparent 26%, transparent 52%, rgba(4,12,22,0.85) 100%);
+}
+
+/* caption (real <h1>; the giant ice word lives in the art). Fades as we descend. */
 .hero-copy {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 10vh;
-  z-index: 2;
-  text-align: center;
-  padding: 0 6vw;
-  opacity: calc(1 - max(0, (var(--melt) - 0.62)) * 2.6);  /* fade as we push in */
+  position: absolute; left: 0; right: 0; bottom: 11vh; z-index: 2; text-align: center; padding: 0 6vw;
+  opacity: calc(1 - min(1, max(0, (var(--melt) - 0.12) * 1.9)));
 }
 .hero-title { margin: 0; line-height: 0.9; }
-.ht-sub {
-  display: block;
-  font-family: 'Inter', sans-serif;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.42em;
-  text-indent: 0.42em;
-  font-size: clamp(0.7rem, 1.8vw, 1.05rem);
-  color: var(--ice-2);
-}
-.ht-main {
-  display: block;
-  font-family: 'Anton', 'Arial Black', sans-serif;
-  font-weight: 400;
-  font-size: clamp(2rem, 6vw, 4.2rem);
-  letter-spacing: 0.02em;
-  color: #eef7ff;
-  text-shadow: 0 6px 34px rgba(0,0,0,0.6);
-}
-.hero-tag {
-  margin-top: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
-  font-size: clamp(0.66rem, 1.5vw, 0.95rem);
-  color: var(--teal);
-  text-shadow: 0 2px 14px rgba(0,0,0,0.6);
-}
+.ht-sub { display: block; font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 0.42em; text-indent: 0.42em; font-size: clamp(0.7rem, 1.8vw, 1.05rem); color: var(--ice-2); }
+.ht-main { display: block; font-family: 'Anton', 'Arial Black', sans-serif; font-weight: 400;
+  font-size: clamp(2rem, 6vw, 4.2rem); letter-spacing: 0.02em; color: #eef7ff; text-shadow: 0 6px 34px rgba(0,0,0,0.6); }
+.hero-tag { margin-top: 0.8rem; text-transform: uppercase; letter-spacing: 0.3em;
+  font-size: clamp(0.66rem, 1.5vw, 0.95rem); color: var(--teal); text-shadow: 0 2px 14px rgba(0,0,0,0.6); }
 
-/* ============  Scroll-synced callouts that "go by"  ============ */
-.callouts {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 38%;
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  pointer-events: none;
-}
-.callout {
-  grid-area: 1 / 1;
-  font-size: clamp(1rem, 2.6vw, 1.7rem);
-  font-weight: 300;
-  color: #eaf6ff;
-  text-shadow: 0 2px 18px rgba(0,0,0,0.75);
-  opacity: 0;
-  transform: translateY(26px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  padding: 0 6vw;
-}
+/* callouts that surface during the descent */
+.callouts { position: absolute; left: 0; right: 0; top: 38%; z-index: 3; display: grid; place-items: center; pointer-events: none; }
+.callout { grid-area: 1 / 1; font-size: clamp(1rem, 2.6vw, 1.7rem); font-weight: 300; color: #eaf6ff;
+  text-shadow: 0 2px 18px rgba(0,0,0,0.78); opacity: 0; transform: translateY(26px);
+  transition: opacity 0.5s ease, transform 0.5s ease; padding: 0 6vw; }
 .callout b { font-weight: 800; color: var(--teal); }
 .callout.active { opacity: 1; transform: translateY(0); }
 
-/* ---- scroll hint ---- */
-.scroll-hint {
-  position: absolute;
-  bottom: 4vh;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
-  display: grid;
-  justify-items: center;
-  gap: 0.4rem;
-  font-size: 0.72rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--ice-2);
-  pointer-events: none;
-  opacity: calc(1 - var(--melt) * 8);
-}
+/* scroll hint */
+.scroll-hint { position: absolute; bottom: 4vh; left: 50%; transform: translateX(-50%); z-index: 3;
+  display: grid; justify-items: center; gap: 0.4rem; font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--ice-2); pointer-events: none; opacity: calc(1 - var(--melt) * 8); }
 .scroll-hint svg { width: 22px; height: 22px; animation: nudge 1.8s ease-in-out infinite; }
 @keyframes nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
 
 @media (prefers-reduced-motion: reduce) {
   .scroll-hint svg { animation: none; }
+  .cine-hero { transform: scale(1.02); }   /* static framing, no dolly */
+  .journey-hero { height: 100vh; }          /* no pinned dead-scroll */
 }
 @media (forced-colors: active) {
   .ht-main, .hero-tag { color: CanvasText; }
