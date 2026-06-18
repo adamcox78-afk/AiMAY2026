@@ -42,38 +42,46 @@
       </linearGradient>
 
       <symbol id="device" viewBox="0 0 260 470">
-        <!-- shadow -->
-        <ellipse cx="130" cy="452" rx="92" ry="14" fill="#000" opacity=".35" />
-        <!-- base + wheels -->
-        <rect x="58" y="420" width="144" height="20" rx="9" fill="#1a2027" />
-        <circle cx="74" cy="446" r="14" fill="#0c1014" stroke="#2c343d" stroke-width="3" />
-        <circle cx="186" cy="446" r="14" fill="#0c1014" stroke="#2c343d" stroke-width="3" />
-        <!-- main console -->
-        <rect x="62" y="120" width="136" height="312" rx="22" fill="url(#dvBody)" />
+        <!-- soft contact shadow -->
+        <ellipse cx="130" cy="456" rx="96" ry="13" fill="#000" opacity=".35" />
+        <!-- caster base: centre column + 5-star legs + wheels -->
+        <rect x="118" y="396" width="24" height="30" fill="#161b22" />
+        <path d="M130 414 L58 446 L80 453 L130 430 L180 453 L202 446 Z" fill="#1c232c" />
+        <circle cx="66" cy="450" r="12" fill="#0b0e12" stroke="#39424d" stroke-width="3" />
+        <circle cx="130" cy="457" r="12" fill="#0b0e12" stroke="#39424d" stroke-width="3" />
+        <circle cx="194" cy="450" r="12" fill="#0b0e12" stroke="#39424d" stroke-width="3" />
+        <!-- main console body -->
+        <rect x="60" y="120" width="140" height="282" rx="24" fill="url(#dvBody)" />
+        <rect x="69" y="130" width="9" height="262" rx="4.5" fill="#ffffff" opacity=".06" />
+        <!-- control buttons (amber / info / red) -->
+        <circle cx="98" cy="156" r="8.5" fill="#f2b53a" />
+        <circle cx="130" cy="156" r="8.5" fill="#5fd0c4" />
+        <circle cx="162" cy="156" r="8.5" fill="#e1564b" />
+        <!-- brand wordmark -->
+        <text x="130" y="190" text-anchor="middle" font-family="'Inter',Arial,sans-serif" font-size="15" font-weight="800" fill="#e8eef5" letter-spacing="-.4">Soprano<tspan fill="#9fb6c9" font-weight="400">Titanium</tspan></text>
         <!-- ribbed lower vent panel -->
-        <rect x="80" y="250" width="100" height="160" rx="12" fill="url(#dvPanel)" />
-        <g stroke="#000" stroke-opacity=".5" stroke-width="2">
-          <line x1="88" y1="262" x2="172" y2="262" /><line x1="88" y1="276" x2="172" y2="276" />
-          <line x1="88" y1="290" x2="172" y2="290" /><line x1="88" y1="304" x2="172" y2="304" />
-          <line x1="88" y1="318" x2="172" y2="318" /><line x1="88" y1="332" x2="172" y2="332" />
-          <line x1="88" y1="346" x2="172" y2="346" /><line x1="88" y1="360" x2="172" y2="360" />
-          <line x1="88" y1="374" x2="172" y2="374" /><line x1="88" y1="388" x2="172" y2="388" />
+        <rect x="80" y="214" width="100" height="170" rx="12" fill="url(#dvPanel)" />
+        <g stroke="#000" stroke-opacity=".45" stroke-width="2">
+          <line x1="90" y1="230" x2="170" y2="230" /><line x1="90" y1="245" x2="170" y2="245" />
+          <line x1="90" y1="260" x2="170" y2="260" /><line x1="90" y1="275" x2="170" y2="275" />
+          <line x1="90" y1="290" x2="170" y2="290" /><line x1="90" y1="305" x2="170" y2="305" />
+          <line x1="90" y1="320" x2="170" y2="320" /><line x1="90" y1="335" x2="170" y2="335" />
+          <line x1="90" y1="350" x2="170" y2="350" /><line x1="90" y1="365" x2="170" y2="365" />
         </g>
-        <!-- control buttons -->
-        <circle cx="96" cy="150" r="9" fill="#f2b53a" /><circle cx="130" cy="150" r="9" fill="#5fd0c4" />
-        <circle cx="164" cy="150" r="9" fill="#e1564b" />
-        <!-- brand label -->
-        <rect x="92" y="190" width="76" height="12" rx="6" fill="#3a4654" opacity=".7" />
-        <!-- angled touchscreen on top -->
-        <g transform="rotate(-9 150 70)">
-          <rect x="70" y="20" width="170" height="104" rx="12" fill="#0a0e13" />
-          <rect x="80" y="30" width="150" height="84" rx="7" fill="url(#dvScreen)" />
-          <rect x="80" y="30" width="150" height="30" rx="7" fill="#ffffff" opacity=".12" />
+        <!-- angled touchscreen on top, showing a sunny lifestyle photo -->
+        <g transform="rotate(-8 150 72)">
+          <rect x="66" y="16" width="180" height="112" rx="12" fill="#0a0e13" />
+          <rect x="76" y="26" width="160" height="92" rx="7" fill="url(#dvScreen)" />
+          <rect x="80" y="30" width="152" height="30" rx="6" fill="#dbeeff" opacity=".45" />
+          <circle cx="214" cy="44" r="8" fill="#ffffff" opacity=".75" />
+          <rect x="80" y="86" width="152" height="28" rx="6" fill="#e6c596" opacity=".85" />
         </g>
-        <!-- handpiece + coiled cable on the left -->
-        <path d="M62 175 C24 175 24 215 40 250 C26 286 30 320 56 340" fill="none" stroke="#0c1014" stroke-width="9" stroke-linecap="round" opacity=".85" />
-        <rect x="20" y="150" width="20" height="44" rx="9" fill="#11161d" transform="rotate(-18 30 172)" />
-        <rect x="22" y="146" width="16" height="14" rx="5" fill="#5fd0c4" transform="rotate(-18 30 152)" />
+        <!-- handpiece docked top-left with thick coiled cable -->
+        <path d="M70 168 C30 168 28 206 46 238 C30 270 36 306 64 326" fill="none" stroke="#0b0e12" stroke-width="10" stroke-linecap="round" opacity=".9" />
+        <g transform="rotate(-20 36 168)">
+          <rect x="24" y="150" width="22" height="46" rx="10" fill="#11161d" />
+          <rect x="27" y="146" width="16" height="14" rx="5" fill="#5fd0c4" />
+        </g>
       </symbol>
     </defs>
   </svg>
@@ -98,24 +106,27 @@
       <div class="backdrop" id="backdrop">
         <svg class="mountains" viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
           <defs>
-            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#0a1d33" />
-              <stop offset=".55" stop-color="#123a5c" />
-              <stop offset="1" stop-color="#1f5d86" />
-            </linearGradient>
-            <linearGradient id="peakFar" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#5b86a8" />
-              <stop offset="1" stop-color="#2a4f6e" />
-            </linearGradient>
-            <linearGradient id="peakNear" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#dff1ff" />
-              <stop offset="1" stop-color="#7ba6c4" />
-            </linearGradient>
+            <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6f1fb"/><stop offset="1" stop-color="#b9d4ea"/></linearGradient>
+            <linearGradient id="peakFar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8aa6c2"/><stop offset="1" stop-color="#5d7da0"/></linearGradient>
+            <linearGradient id="peakMid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6f8aa6"/><stop offset="1" stop-color="#41597a"/></linearGradient>
+            <linearGradient id="peakNear" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe0f2"/><stop offset="0.6" stop-color="#7e9ab5"/><stop offset="1" stop-color="#51708f"/></linearGradient>
+            <linearGradient id="lakeGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d3e9f7"/><stop offset="1" stop-color="#9cc4de"/></linearGradient>
           </defs>
-          <rect width="1440" height="600" fill="url(#sky)" />
-          <path class="layer-far" d="M0 360 L160 250 L320 330 L520 200 L700 320 L900 210 L1100 330 L1280 240 L1440 320 L1440 600 L0 600 Z" fill="url(#peakFar)" opacity=".75" />
-          <path class="layer-near" d="M0 470 L220 300 L430 440 L640 270 L820 430 L1040 290 L1240 450 L1440 330 L1440 600 L0 600 Z" fill="url(#peakNear)" opacity=".95" />
-          <path d="M0 500 L300 420 L560 520 L900 430 L1200 520 L1440 470 L1440 600 L0 600 Z" fill="#eaf6ff" opacity=".9" />
+          <rect width="1440" height="600" fill="url(#skyGrad)"/>
+          <ellipse cx="320" cy="90" rx="190" ry="44" fill="#ffffff" opacity="0.6"/>
+          <ellipse cx="760" cy="55" rx="240" ry="38" fill="#ffffff" opacity="0.55"/>
+          <ellipse cx="1140" cy="120" rx="210" ry="50" fill="#ffffff" opacity="0.65"/>
+          <path d="M0 420 L160 320 L300 380 L460 270 L600 350 L720 210 L840 350 L980 270 L1140 380 L1280 320 L1440 420 L1440 600 L0 600 Z" fill="url(#peakFar)" opacity="0.55"/>
+          <path d="M0 470 L150 380 L280 430 L420 330 L560 410 L720 180 L880 410 L1020 330 L1160 430 L1290 380 L1440 470 L1440 600 L0 600 Z" fill="url(#peakMid)" opacity="0.8"/>
+          <path d="M0 470 L150 380 L280 430 L420 330 L560 410 L720 180 L880 410 L1020 330 L1160 430 L1290 380 L1440 470" fill="none" stroke="#eef7ff" stroke-width="3" opacity="0.9"/>
+          <path d="M0 520 L130 430 L250 480 L380 380 L520 460 L640 300 L720 130 L800 300 L920 460 L1060 380 L1190 480 L1310 430 L1440 520 L1440 600 L0 600 Z" fill="url(#peakNear)"/>
+          <path d="M640 300 L720 130 L800 300 L760 320 L720 230 L680 320 Z" fill="#2f4763" opacity="0.35"/>
+          <path d="M380 380 L520 460 L470 470 L420 410 Z" fill="#2f4763" opacity="0.3"/>
+          <path d="M920 460 L1060 380 L1020 410 L970 470 Z" fill="#2f4763" opacity="0.3"/>
+          <path d="M0 520 L130 430 L250 480 L380 380 L520 460 L640 300 L720 130 L800 300 L920 460 L1060 380 L1190 480 L1310 430 L1440 520" fill="none" stroke="#eef7ff" stroke-width="4" opacity="0.9"/>
+          <path d="M0 525 L1440 525 L1440 600 L0 600 Z" fill="url(#lakeGrad)"/>
+          <line x1="120" y1="552" x2="1320" y2="552" stroke="#eef7ff" stroke-width="2" opacity="0.5"/>
+          <line x1="320" y1="578" x2="1120" y2="578" stroke="#ffffff" stroke-width="2" opacity="0.35"/>
         </svg>
         <div class="backdrop-tint"></div>
       </div>
@@ -164,6 +175,15 @@
                 <path d="M40 22 H150 C150 22 120 70 120 92 C120 150 60 170 40 170 Z" fill="url(#iceSheen)" opacity=".55" />
                 <!-- frost crust that melts away with scroll -->
                 <path class="p-crust" d="M28 14 H150 C198 14 226 46 226 92 C226 138 198 170 150 170 H96 V326 H28 Z" fill="#ffffff" filter="url(#frost)" />
+              </g>
+
+              <!-- meltwater drips on the device — fade in once the ice has mostly thawed -->
+              <g clip-path="url(#pClip)" class="dev-drips">
+                <path d="M72 70 C70 110 74 150 72 192" fill="none" stroke="#dff3ff" stroke-width="3" stroke-linecap="round" opacity=".85" />
+                <path d="M150 64 C148 100 152 140 150 176" fill="none" stroke="#dff3ff" stroke-width="3" stroke-linecap="round" opacity=".7" />
+                <path d="M112 122 C110 152 114 186 112 216" fill="none" stroke="#cfeeff" stroke-width="2.5" stroke-linecap="round" opacity=".6" />
+                <ellipse cx="72" cy="196" rx="4.5" ry="6" fill="#eaf9ff" />
+                <ellipse cx="150" cy="180" rx="4" ry="5.5" fill="#eaf9ff" />
               </g>
               <!-- crisp edge -->
               <path d="M28 14 H150 C198 14 226 46 226 92 C226 138 198 170 150 170 H96 V326 H28 Z"
