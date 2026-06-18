@@ -1,0 +1,224 @@
+/* =====================================================================
+   Soprano Titanium — HERO stage + ice wordmark + melt mechanics
+   All melt-driven values read the --melt custom property (0 → 1),
+   which scripts/scene.js updates from the hero scroll position.
+   ===================================================================== */
+
+/* The tall track gives us scroll distance; the stage sticks while we melt */
+.hero-track { position: relative; height: 360vh; z-index: 1; }
+.hero-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+}
+
+/* ---- Icy backdrop (parallax + cools/darkens as the scene thaws) ---- */
+.backdrop { position: absolute; inset: 0; z-index: -2; }
+.backdrop .mountains {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: scale(calc(1 + var(--melt) * 0.25)) translateY(calc(var(--melt) * -3%));
+}
+.backdrop .layer-near { transform: translateY(calc(var(--melt) * 22px)); }
+.backdrop .layer-far  { transform: translateY(calc(var(--melt) * -14px)); }
+.backdrop-tint {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 50% 8%, transparent 40%, rgba(3, 12, 22, 0.85) 100%),
+    linear-gradient(180deg, rgba(6, 16, 28, calc(0.06 + var(--melt) * 0.4)), rgba(6, 16, 28, calc(0.28 + var(--melt) * 0.45)));
+}
+/* real mountain photo backdrop; carries the same dolly push-in as the SVG */
+.backdrop.has-photo {
+  background: center/cover no-repeat url('../assets/ice-mountains.webp');
+  transform: scale(calc(1 + var(--melt) * 0.25));
+  transform-origin: center;
+}
+.backdrop.has-photo .mountains { display: none; }
+
+/* ---- Wordmark ---- */
+.wordmark-wrap {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 0 4vw;
+  /* Dolly-zoom: the sculpture starts far away (small, hazy, faint) and we
+     fly toward it as --melt climbs, arriving "within 5 feet" at full melt. */
+  transform: scale(calc(0.42 + var(--melt) * 0.63));
+  transform-origin: center 58%;
+  filter: blur(calc((1 - var(--melt)) * 2.5px));
+  opacity: calc(0.5 + var(--melt) * 0.5);
+  will-change: transform, filter, opacity;
+}
+.wordmark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.05em, 0.4vw, 0.12em);
+  font-family: 'Anton', 'Arial Black', system-ui, sans-serif;
+  font-weight: 400;
+  font-size: clamp(2.3rem, 13.5vw, 11rem);
+  line-height: 0.9;
+  max-width: 100%;
+  /* the whole sculpture sags & softens slightly as it melts */
+  transform: translateY(calc(var(--melt) * 14px));
+}
+
+/* Ice letters: clipped icy gradient + carved bevel + frosty glow */
+.ice-letter {
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(180deg, var(--ice-1) 0%, var(--ice-2) 42%, var(--ice-3) 72%, var(--ice-4) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6),
+    0 0 18px rgba(127, 199, 240, calc(0.7 - var(--melt) * 0.5)),
+    0 6px 18px rgba(0, 0, 0, 0.35);
+  /* soften (lose crisp frost) + sag as it melts */
+  transform: translateY(calc(var(--melt) * 10px)) scaleY(calc(1 - var(--melt) * 0.04));
+  opacity: calc(1 - max(0, (var(--melt) - 0.9)) * 2);
+  filter: drop-shadow(0 0 calc(var(--melt) * 6px) rgba(180, 230, 255, 0.5));
+}
+/* meltwater drip from each letter */
+.ice-letter::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0.04em;
+  width: 0.06em;
+  height: calc(var(--melt) * 0.55em);
+  background: linear-gradient(180deg, rgba(191, 230, 255, 0.9), rgba(127, 199, 240, 0));
+  border-radius: 0 0 999px 999px;
+  transform: translateX(-50%);
+  opacity: calc(var(--melt) * 0.9);
+}
+.ice-letter[data-l="O"]::after { left: 62%; }
+.ice-letter[data-l="R"]::after { left: 40%; }
+
+/* ---- The P: a block of ice with the device frozen inside ---- */
+.letter-p {
+  position: relative;
+  display: inline-block;
+  height: 0.96em;
+  line-height: 0;
+  transform: translateY(calc(var(--melt) * 8px));
+}
+.p-svg { height: 100%; width: auto; display: block; overflow: visible; }
+
+/* device behind the ice — sharpens & brightens as the frost clears */
+.p-device {
+  filter: blur(calc((1 - var(--melt)) * 5px)) brightness(calc(0.62 + var(--melt) * 0.5)) saturate(calc(0.6 + var(--melt) * 0.6));
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(calc(0.94 + var(--melt) * 0.06));
+}
+.device-frost { opacity: calc(1 - var(--melt)); }          /* icy haze clears */
+.p-crust { opacity: calc((1 - var(--melt)) * 0.95); }       /* frost crust melts off */
+.p-ice   { opacity: calc(0.82 - var(--melt) * 0.66); }      /* ice body turns clear glass */
+/* drips on the device surface — only once it has mostly thawed (melt > ~0.55) */
+.dev-drips { opacity: calc(max(0, (var(--melt) - 0.55)) * 2.4); }
+
+/* drips sliding off the P */
+.letter-p .drip {
+  position: absolute;
+  width: 5px;
+  background: linear-gradient(180deg, rgba(223, 241, 255, 0.95), rgba(127, 199, 240, 0));
+  border-radius: 0 0 999px 999px;
+  transform-origin: top;
+  transform: scaleY(var(--melt));
+  opacity: calc(var(--melt) * 0.9);
+}
+.letter-p .d1 { left: 18%; bottom: -6%; height: 46px; }
+.letter-p .d2 { left: 52%; bottom: -10%; height: 70px; }
+.letter-p .d3 { left: 74%; bottom: -4%; height: 38px; }
+
+/* ---- meltwater puddle under the sculpture ---- */
+.puddle {
+  margin: 0.3em auto 0;
+  width: clamp(180px, 40vw, 520px);
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(191, 230, 255, 0.55), rgba(127, 199, 240, 0));
+  filter: blur(3px);
+  transform: scaleX(calc(0.3 + var(--melt) * 0.9));
+  opacity: calc(var(--melt) * 0.85);
+}
+
+/* ---- kicker under the wordmark ---- */
+.kicker {
+  margin-top: 0.4em;
+  font-family: 'Inter', sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.62em;
+  text-indent: 0.62em;
+  font-size: clamp(0.7rem, 2vw, 1.15rem);
+  color: var(--ice-2);
+  opacity: calc(1 - var(--melt) * 0.7);
+}
+
+/* =====================================================================
+   Scroll-synced callouts ("text going by")
+   ===================================================================== */
+.callouts {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 14vh;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.callout {
+  grid-area: 1 / 1;
+  font-size: clamp(1rem, 2.6vw, 1.7rem);
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  color: #eaf6ff;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.callout b { font-weight: 800; color: var(--teal); }
+.callout.active { opacity: 1; transform: translateY(0); }
+
+/* ---- scroll hint ---- */
+.scroll-hint {
+  position: absolute;
+  bottom: 4vh;
+  left: 50%;
+  transform: translateX(-50%);
+  display: grid;
+  justify-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ice-2);
+  opacity: calc(1 - var(--melt) * 8);
+  pointer-events: none;
+}
+.scroll-hint svg { width: 22px; height: 22px; animation: nudge 1.8s ease-in-out infinite; }
+@keyframes nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hint svg { animation: none; }
+  /* skip the dolly-zoom — present a clean, full-size frosted sculpture
+     (the device is still revealed in the section below) */
+  .wordmark-wrap { transform: none; filter: none; opacity: 1; }
+  .wordmark, .ice-letter, .letter-p { transform: none; }
+}
+
+/* High-contrast / forced-colors: clipped transparent text would vanish */
+@media (forced-colors: active) {
+  .ice-letter { color: CanvasText; -webkit-text-fill-color: currentColor; }
+}
