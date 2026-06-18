@@ -1,0 +1,66 @@
+/* =====================================================================
+   Motion test / diagnostics styling. The CSS animations here run with no
+   JS at all — so motion is visible even if GSAP never loads.
+   ===================================================================== */
+
+.motion-test {
+  position: relative; z-index: 1;
+  min-height: 92vh;
+  display: flex; flex-direction: column; justify-content: center;
+  max-width: var(--maxw); margin: 0 auto; padding: 9vh 6vw;
+}
+.mt-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.6rem; margin-bottom: 2rem; }
+.mt-cell {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(191,230,255,0.16);
+  border-radius: 16px; padding: 1.6rem;
+  min-height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.4rem;
+  overflow: hidden;
+}
+.mt-cell.mt-wide { grid-column: 1 / -1; }
+.mt-label { font-size: 0.7rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--muted); }
+
+/* pure-CSS, always animating (the guaranteed proof of motion) */
+.mt-css-orb {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--ice-1), var(--ice-4));
+  box-shadow: 0 0 30px var(--ice-3);
+  animation: mt-bounce 1.3s ease-in-out infinite alternate;
+}
+@keyframes mt-bounce { from { transform: translateY(-24px) scale(0.9); } to { transform: translateY(24px) scale(1.12); } }
+
+/* GSAP drives #gsapBox via transforms; CSS fallback animates it when GSAP is absent */
+.mt-box {
+  width: 64px; height: 64px; border-radius: 14px;
+  background: linear-gradient(135deg, var(--teal), var(--ice-4));
+  box-shadow: 0 0 30px rgba(84,227,214,0.5);
+}
+.motion-test.no-gsap .mt-box { animation: mt-spinmove 2.6s ease-in-out infinite alternate; }
+@keyframes mt-spinmove { from { transform: translateX(-70px) rotate(0deg); } to { transform: translateX(70px) rotate(360deg); } }
+
+/* ScrollTrigger scrub bar (GSAP fills it on scroll; CSS loops it as fallback) */
+.mt-scrub-track { width: 100%; max-width: 640px; height: 14px; border-radius: 999px; background: rgba(255,255,255,0.08); overflow: hidden; }
+.mt-scrub-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--ice-3), var(--teal)); box-shadow: 0 0 16px var(--teal); }
+.motion-test.no-gsap .mt-scrub-fill { width: 50%; animation: mt-fill 2s ease-in-out infinite alternate; }
+@keyframes mt-fill { from { width: 8%; } to { width: 100%; } }
+
+/* live status readout */
+.mt-status {
+  font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.9rem; color: #cfe4f5;
+  display: grid; gap: 0.4rem; max-width: 540px;
+  background: rgba(2,8,15,0.5); border: 1px solid rgba(127,199,240,0.18); border-radius: 12px; padding: 1rem 1.2rem;
+}
+.mt-status p { margin: 0; }
+.mt-note { margin-top: 1rem; color: var(--muted); font-size: 0.85rem; }
+
+/* fixed status badge — instant verification without scrolling or devtools */
+.mt-badge {
+  position: fixed; left: 14px; bottom: 14px; z-index: 70;
+  font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.72rem; color: #bfefff;
+  background: rgba(2,8,15,0.74); border: 1px solid rgba(127,199,240,0.3); border-radius: 999px;
+  padding: 0.35rem 0.7rem; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mt-css-orb, .motion-test.no-gsap .mt-box, .motion-test.no-gsap .mt-scrub-fill { animation: none; }
+}

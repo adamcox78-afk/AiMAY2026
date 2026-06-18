@@ -26,6 +26,7 @@
   <link rel="stylesheet" href="styles/main.css" />
   <link rel="stylesheet" href="styles/hero.css" />
   <link rel="stylesheet" href="styles/frost.css" />
+  <link rel="stylesheet" href="styles/motion.css" />
 </head>
 <body>
   <!-- one continuous glacial backdrop for the whole descent -->
@@ -38,6 +39,9 @@
 
   <!-- brand -->
   <a class="brand" href="#book" aria-label="Alma — For You. For Life."><img src="assets/alma-logo.png" alt="Alma" /></a>
+
+  <!-- live motion-status badge (updated by scripts/motion-test.js) -->
+  <div class="mt-badge" id="mtBadge" aria-hidden="true">⚙ booting…</div>
 
   <!-- ===================================================================
        I · THE FROZEN PEAK — pinned cinematic descent.
@@ -67,6 +71,35 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v14M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
     </div>
+  </section>
+
+  <!-- MOTION TEST — visible proof the animation pipeline runs in your browser -->
+  <section class="motion-test" aria-label="Motion test">
+    <header class="moment-head reveal">
+      <p class="eyebrow">Diagnostics</p>
+      <h2>Motion test</h2>
+    </header>
+    <div class="mt-grid">
+      <div class="mt-cell">
+        <span class="mt-label">Pure CSS · always on</span>
+        <div class="mt-css-orb" aria-hidden="true"></div>
+      </div>
+      <div class="mt-cell">
+        <span class="mt-label">GSAP tween</span>
+        <div id="gsapBox" class="mt-box" aria-hidden="true"></div>
+      </div>
+      <div class="mt-cell mt-wide">
+        <span class="mt-label">ScrollTrigger scrub — fills as you scroll</span>
+        <div class="mt-scrub-track"><div id="mtScrubFill" class="mt-scrub-fill"></div></div>
+      </div>
+    </div>
+    <div class="mt-status" id="mtStatus" role="status">
+      <p id="mtGsap">GSAP: checking…</p>
+      <p id="mtST">ScrollTrigger: checking…</p>
+      <p id="mtFrames">Frames: 0</p>
+      <p id="mtFires">ScrollTrigger fired: 0</p>
+    </div>
+    <p class="mt-note">Open the browser console (F12) for live logs. This is a temporary diagnostic — tell me to remove it when you're satisfied.</p>
   </section>
 
   <!-- II · THE THAW — the device emerges -->
@@ -170,8 +203,12 @@
     </div>
   </footer>
 
+  <!-- GSAP + ScrollTrigger from CDN (your browser loads these; CSS fallback if blocked) -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="scripts/snow.js" defer></script>
   <script src="scripts/scene.js" defer></script>
   <script src="scripts/reveal.js" defer></script>
+  <script src="scripts/motion-test.js" defer></script>
 </body>
 </html>
