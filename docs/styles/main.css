@@ -1,0 +1,70 @@
+/* =====================================================================
+   Soprano Titanium — base, backdrop, HUD, footer, fallback.
+   The first-person fly-through world lives in fly.css.
+   ===================================================================== */
+
+:root {
+  --ink: #06101c;
+  --ice-1: #f4fbff; --ice-2: #bfe6ff; --ice-3: #7fc7f0; --ice-4: #4aa3d6;
+  --teal: #54e3d6; --muted: #9fc0d8; --maxw: 1120px;
+  --p: 0;   /* forward-travel progress, set by fly.js */
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: #02080f; color: var(--ice-1); line-height: 1.6;
+  overflow-x: hidden; -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { line-height: 1.04; letter-spacing: -0.02em; }
+a { color: inherit; }
+
+.glacier { position: fixed; inset: 0; z-index: -2;
+  background: radial-gradient(120% 70% at 50% 0%, #16344e 0%, transparent 55%), linear-gradient(180deg, #0a1e30 0%, #06121f 60%, #02080f 100%); }
+#snow { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 40; }
+
+.brand { position: fixed; top: 1.3rem; left: 1.5rem; z-index: 55; line-height: 0; }
+.brand img { width: clamp(76px, 9vw, 112px); height: auto; filter: brightness(0) invert(1); opacity: 0.9; }
+
+.btn { display: inline-block; margin-top: 1.6rem; padding: 0.85rem 1.9rem; border-radius: 999px;
+  background: linear-gradient(135deg, var(--ice-2), var(--ice-4)); color: #05121d; font-weight: 800;
+  text-decoration: none; box-shadow: 0 10px 30px rgba(74,163,214,0.35); transition: transform 0.25s ease, box-shadow 0.25s ease; }
+.btn:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(84,227,214,0.45); }
+.btn.big { font-size: 1.15rem; padding: 1.05rem 2.4rem; }
+
+/* ---- HUD overlays (fixed, above the 3D world) ---- */
+.hud-title { position: fixed; inset: 0; z-index: 5; display: grid; place-items: center; text-align: center;
+  pointer-events: none; opacity: calc(1 - min(1, var(--p) * 5)); }
+.hud-title .t-sub { display: block; font-weight: 800; text-transform: uppercase; letter-spacing: 0.42em; text-indent: 0.42em;
+  font-size: clamp(0.7rem, 1.8vw, 1.05rem); color: var(--ice-2); }
+.hud-title .t-main { display: block; font-family: 'Anton', 'Arial Black', sans-serif; font-size: clamp(2.4rem, 8vw, 5.5rem);
+  color: #eef7ff; text-shadow: 0 6px 34px rgba(0,0,0,0.6); }
+.hud-hint { position: fixed; bottom: 4vh; left: 50%; transform: translateX(-50%); z-index: 6;
+  font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ice-2);
+  pointer-events: none; opacity: calc(1 - var(--p) * 8); }
+.hud-badge { position: fixed; left: 14px; bottom: 14px; z-index: 70; font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.72rem; color: #bfefff; background: rgba(2,8,15,0.74); border: 1px solid rgba(127,199,240,0.3);
+  border-radius: 999px; padding: 0.35rem 0.7rem; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); pointer-events: none; }
+
+/* ---- footer / booking ---- */
+.close { position: relative; z-index: 2; min-height: 84vh; display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 12vh 6vw 8vh; background: linear-gradient(180deg, transparent, #02080f 38%); }
+.close-inner { max-width: 640px; }
+.close .cta-logo { display: block; width: clamp(120px, 16vw, 176px); height: auto; margin: 0 auto 1.4rem; filter: brightness(0) invert(1); opacity: 0.9; }
+.close h2 { font-size: clamp(2.2rem, 7vw, 4rem); margin-bottom: 0.5rem; }
+.close p { color: var(--muted); max-width: 42ch; margin: 0 auto; }
+.close .fine { margin: 2.2rem auto 0; font-size: 0.78rem; color: var(--muted); max-width: 52ch; }
+
+/* ---- static fallback (reduced-motion / no-JS) ---- */
+.fly-fallback { display: none; }
+html.reduced .fly { display: none !important; }
+html.reduced .fly-fallback { display: block; }
+html.reduced .hud-title, html.reduced .hud-hint { display: none; }
+.fly-fallback { position: relative; z-index: 2; max-width: 760px; margin: 0 auto; padding: 16vh 6vw 4vh; text-align: center; }
+.fly-fallback img { width: min(260px, 60vw); height: auto; filter: drop-shadow(0 30px 50px rgba(0,0,0,0.6)); }
+.fly-fallback h1 { font-family: 'Anton', 'Arial Black', sans-serif; font-size: clamp(2.4rem, 8vw, 4.5rem); margin: 1rem 0 0.5rem; }
+.fly-fallback ul { list-style: none; display: grid; gap: 0.7rem; margin: 1.6rem auto; max-width: 46ch; color: #d6ecfb; text-align: left; }
+.fly-fallback li { padding-left: 1.4rem; position: relative; }
+.fly-fallback li::before { content: "❄"; position: absolute; left: 0; color: var(--ice-3); }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

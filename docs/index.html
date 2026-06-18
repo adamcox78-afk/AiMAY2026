@@ -1,277 +1,119 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Boca Center for Healthy Living — Health, Decoded</title>
-  <meta name="description" content="Boca Raton's center for regenerative medicine, aesthetics, and longevity. Where cutting-edge science meets human care." />
-  <!-- Preview/concept build: keep it out of search results. Remove this when going live with real content. -->
-  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#06101c" />
+  <title>Soprano Titanium — Carved from Ice</title>
+  <meta name="description" content="A first-person flight through the ice to the Soprano Titanium — painless, powerful, permanent hair removal powered by ICE Technology." />
+  <link rel="canonical" href="https://adamcox78-afk.github.io/AiMAY2026/" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 
-  <!-- Swap in your real logo for favicon when ready -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%A7%AC</text></svg>" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Soprano Titanium — Carved from Ice" />
+  <meta property="og:description" content="Fly through the ice to the Soprano Titanium — painless, powerful, permanent." />
+  <meta property="og:url" content="https://adamcox78-afk.github.io/AiMAY2026/" />
+  <meta property="og:image" content="https://adamcox78-afk.github.io/AiMAY2026/assets/hero-ice.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Fonts load from Google with a system fallback; the site still looks good offline -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="stylesheet" href="styles/fly.css" />
 
-  <!-- Three.js for the WebGL helix (loads from CDN; the site falls back to a
-       self-contained 2D canvas helix if this is unreachable). Pin the version. -->
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-    }
-  }
-  </script>
-  <script>document.documentElement.classList.replace('no-js', 'js');</script>
+  <!-- no-JS: skip the 3D flight, show the static fallback -->
+  <noscript><style>.fly{display:none}.fly-fallback{display:block}.hud-title,.hud-hint,.hud-badge{display:none}</style></noscript>
 </head>
 <body>
-  <!-- Continuous DNA-helix tunnel rendered behind the entire page -->
-  <canvas id="helix-canvas" class="helix-canvas" aria-hidden="true"></canvas>
-  <div class="grain" aria-hidden="true"></div>
-  <div class="vignette" aria-hidden="true"></div>
+  <div class="glacier" aria-hidden="true"></div>
+  <canvas id="snow" aria-hidden="true"></canvas>
 
-  <!-- Genome progress rail -->
-  <aside class="rail" aria-hidden="true">
-    <span class="rail__label">Sequence</span>
-    <div class="rail__track"><div class="rail__fill" id="rail-fill"></div></div>
-    <span class="rail__pct" id="rail-pct">00%</span>
-  </aside>
+  <a class="brand" href="#book" aria-label="Alma — For You. For Life."><img src="assets/alma-logo.png" alt="Alma" /></a>
 
-  <!-- ============================ NAV ============================ -->
-  <header class="nav" id="nav">
-    <a class="nav__brand" href="#top" aria-label="Boca Center for Healthy Living home">
-      <span class="nav__mark" aria-hidden="true"></span>
-      <span class="nav__name">BOCA<small>Center for Healthy Living</small></span>
-    </a>
-    <nav class="nav__links" aria-label="Primary">
-      <a href="#chapter-1">Treatments</a>
-      <a href="#science">The Science</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <a class="btn btn--cta" href="#contact">Book Consultation</a>
-    <button class="nav__toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </header>
+  <!-- HUD: page title (fades as you move forward), hint, live motion badge -->
+  <h1 class="hud-title" aria-label="Soprano Titanium"><span class="t-sub">Soprano</span><span class="t-main">Titanium</span></h1>
+  <div class="hud-hint" id="flyHint" aria-hidden="true">scroll to fly forward ▲</div>
+  <div class="hud-badge" id="mtBadge" aria-hidden="true">⚙ booting…</div>
 
-  <main id="top">
-    <!-- ============================ HERO ============================ -->
-    <section class="hero" id="hero">
-      <!-- HERO IMAGE SLOT: drop your photo URL into --hero-image in styles.css
-           (e.g. a clinic / provider / patient image). A gradient shows until then. -->
-      <div class="hero__media" role="img" aria-label="Boca Center for Healthy Living"></div>
-      <div class="hero__inner">
-        <p class="eyebrow">Boca Raton, Florida · Regenerative &amp; Aesthetic Medicine</p>
-        <h1 class="hero__title">Health,<br /><span class="grad">decoded.</span></h1>
-        <p class="hero__lede">
-          We treat the blueprint — not just the symptom. Step into a journey through
-          the science of you, where regenerative medicine, aesthetics, and longevity meet human care.
-        </p>
-        <div class="hero__actions">
-          <a class="btn btn--cta" href="#contact">Begin your journey</a>
-          <a class="btn btn--ghost" href="#chapter-1">Explore treatments</a>
+  <!-- ===================================================================
+       FIRST-PERSON FLY-THROUGH. The tall #flyTrack gives forward distance;
+       the sticky stage is the camera. fly.js sets --p (0→1) from scroll and
+       every object positions itself in DEPTH (see fly.css) — so you fly
+       FORWARD: through the ice valley, the SOPRANO gate, into the igloo,
+       then down the tunnel as facts rush past, arriving at the device.
+  ==================================================================== -->
+  <section class="fly" id="flyTrack" aria-label="Fly-through to the Soprano Titanium">
+    <div class="fly-stage">
+      <div class="world" id="world" aria-hidden="true">
+        <!-- icy valley we start in (full-bleed backdrop that fades as we set off) -->
+        <div class="obj env" style="--c:0.0; --w:0.16"></div>
+
+        <!-- fly through the SOPRANO ice word -->
+        <div class="obj gate-ice" style="--c:0.15; --w:0.16; --speed:3200px"><div class="gate-word">SOPRANO</div></div>
+
+        <!-- into the igloo -->
+        <div class="obj gate-igloo" style="--c:0.30; --w:0.17; --speed:3000px"></div>
+
+        <!-- the tunnel: rings rushing past -->
+        <i class="ring" style="--c:0.34"></i><i class="ring" style="--c:0.38"></i>
+        <i class="ring" style="--c:0.42"></i><i class="ring" style="--c:0.46"></i>
+        <i class="ring" style="--c:0.50"></i><i class="ring" style="--c:0.54"></i>
+        <i class="ring" style="--c:0.58"></i><i class="ring" style="--c:0.62"></i>
+        <i class="ring" style="--c:0.66"></i><i class="ring" style="--c:0.70"></i>
+        <i class="ring" style="--c:0.74"></i><i class="ring" style="--c:0.78"></i>
+        <i class="ring" style="--c:0.82"></i><i class="ring" style="--c:0.86"></i>
+        <i class="ring" style="--c:0.90"></i><i class="ring" style="--c:0.94"></i>
+
+        <!-- facts rushing past on the tunnel walls -->
+        <div class="obj info" style="--c:0.42; --x:-34vw; --w:0.10"><p class="eyebrow">Comfort</p><h3>Painless by design</h3><p>ICE Plus contact cooling keeps the skin comfortable — no numbing cream.</p></div>
+        <div class="obj info" style="--c:0.52; --x:34vw; --w:0.10"><p class="eyebrow">Power</p><h3>Three wavelengths, one pulse</h3><p>755 · 810 · 1064&nbsp;nm fire together through the TITANIUM applicator.</p></div>
+        <div class="obj info" style="--c:0.62; --x:-34vw; --w:0.10"><p class="eyebrow">Speed</p><h3>Under 15 minutes</h3><p>A large 4&nbsp;cm² spot glides in motion — most areas finish fast.</p></div>
+        <div class="obj info" style="--c:0.72; --x:34vw; --w:0.10"><p class="eyebrow">For everyone</p><h3>Every skin tone</h3><p>FDA-cleared across Fitzpatrick I–VI — even tanned skin, all year.</p></div>
+        <div class="obj info" style="--c:0.82; --x:-34vw; --w:0.10"><p class="eyebrow">Beyond hair removal</p><h3>The Titanium Lift</h3><p>The same wavelengths, deeper — collagen, firmer and visibly lifted skin.</p></div>
+
+        <!-- arrival: the device -->
+        <div class="obj chamber" style="--c:1.0; --w:0.16; --speed:2400px">
+          <p class="eyebrow">You've arrived</p>
+          <img src="assets/device-soprano.webp" alt="Soprano Titanium device" />
+          <h2>Soprano Titanium</h2>
+          <p>Painless. Powerful. Permanent.</p>
         </div>
       </div>
-      <a class="scrollcue" href="#chapter-1" aria-label="Scroll down">
-        <span>Scroll to descend the helix</span>
-        <span class="scrollcue__dot"></span>
-      </a>
-    </section>
+    </div>
+  </section>
 
-    <!-- ======================= THE JOURNEY ========================= -->
-    <!-- Each .chapter is one base pair / station of the helix.
-         Replace the copy below with your real service descriptions. -->
-    <section class="journey" id="journey" aria-label="Our treatments">
+  <!-- static fallback for reduced-motion / no-JS -->
+  <section class="fly-fallback">
+    <img src="assets/device-soprano.webp" alt="Soprano Titanium device" />
+    <h1>Soprano Titanium</h1>
+    <p>Painless, powerful, permanent hair removal — powered by ICE Technology.</p>
+    <ul>
+      <li>ICE Plus contact cooling — comfortable, no numbing cream</li>
+      <li>Three wavelengths (755 · 810 · 1064&nbsp;nm) through the TITANIUM applicator</li>
+      <li>Large 4&nbsp;cm² spot — most areas finished in under 15 minutes</li>
+      <li>FDA-cleared across Fitzpatrick I–VI, including tanned skin</li>
+      <li>The Titanium Lift — collagen stimulation for firmer, lifted skin</li>
+    </ul>
+    <a class="btn" href="#book">Book a treatment</a>
+  </section>
 
-      <article class="chapter" id="chapter-1" data-station="0" data-accent="cyan">
-        <div class="chapter__panel">
-          <span class="chapter__index">01 / Base Pair</span>
-          <h2 class="chapter__title">Regenerative Medicine</h2>
-          <p class="chapter__say">Healing from within.</p>
-          <p class="chapter__body">
-            Stem cell and PRP therapies that switch on your body's own repair systems —
-            for joint and tissue regeneration, faster recovery, and lasting pain relief.
-          </p>
-          <ul class="chapter__tags">
-            <li>Stem Cell Therapy</li><li>PRP</li><li>Joint &amp; Tissue Repair</li>
-          </ul>
-        </div>
-      </article>
-
-      <article class="chapter" id="chapter-2" data-station="1" data-accent="magenta">
-        <div class="chapter__panel">
-          <span class="chapter__index">02 / Base Pair</span>
-          <h2 class="chapter__title">Aesthetics &amp; Laser</h2>
-          <p class="chapter__say">Renewed, naturally.</p>
-          <p class="chapter__body">
-            Advanced laser platforms like the Soprano Titanium, skin rejuvenation, body
-            contouring, and medical-grade facials — refined results that still look like you.
-          </p>
-          <ul class="chapter__tags">
-            <li>Soprano Titanium Laser</li><li>Skin Rejuvenation</li><li>Body Contouring</li>
-          </ul>
-        </div>
-      </article>
-
-      <article class="chapter" id="chapter-3" data-station="2" data-accent="violet">
-        <div class="chapter__panel">
-          <span class="chapter__index">03 / Base Pair</span>
-          <h2 class="chapter__title">Hormone Optimization</h2>
-          <p class="chapter__say">Balance, restored.</p>
-          <p class="chapter__body">
-            Bioidentical hormone therapy and anti-aging protocols tuned to your unique
-            biochemistry — for energy, clarity, sleep, and vitality that compounds.
-          </p>
-          <ul class="chapter__tags">
-            <li>Bioidentical HRT</li><li>Anti-Aging</li><li>Thyroid &amp; Adrenal</li>
-          </ul>
-        </div>
-      </article>
-
-      <article class="chapter" id="chapter-4" data-station="3" data-accent="amber">
-        <div class="chapter__panel">
-          <span class="chapter__index">04 / Base Pair</span>
-          <h2 class="chapter__title">IV Therapy &amp; Nutrition</h2>
-          <p class="chapter__say">Nourished at the cellular level.</p>
-          <p class="chapter__body">
-            Custom vitamin infusions and nutritional medicine that deliver what your cells
-            need — for immunity, performance, recovery, and glow.
-          </p>
-          <ul class="chapter__tags">
-            <li>IV Vitamin Drips</li><li>NAD+</li><li>Nutritional Medicine</li>
-          </ul>
-        </div>
-      </article>
-
-      <article class="chapter" id="chapter-5" data-station="4" data-accent="cyan">
-        <div class="chapter__panel">
-          <span class="chapter__index">05 / Base Pair</span>
-          <h2 class="chapter__title">Medical Weight Loss</h2>
-          <p class="chapter__say">Metabolism, reprogrammed.</p>
-          <p class="chapter__body">
-            Physician-guided GLP-1 and metabolic programs built around your biology — sustainable
-            results with real medical oversight, not another crash diet.
-          </p>
-          <ul class="chapter__tags">
-            <li>GLP-1 Programs</li><li>Metabolic Testing</li><li>Coaching</li>
-          </ul>
-        </div>
-      </article>
-
-      <article class="chapter" id="chapter-6" data-station="5" data-accent="magenta">
-        <div class="chapter__panel">
-          <span class="chapter__index">06 / Base Pair</span>
-          <h2 class="chapter__title">Longevity &amp; Wellness</h2>
-          <p class="chapter__say">Designed to last.</p>
-          <p class="chapter__body">
-            Functional and preventive medicine, advanced diagnostics, and a personalized health
-            plan that looks years ahead — so you don't just live longer, you live better.
-          </p>
-          <ul class="chapter__tags">
-            <li>Functional Medicine</li><li>Advanced Diagnostics</li><li>Health Planning</li>
-          </ul>
-        </div>
-      </article>
-    </section>
-
-    <!-- ====================== THE SCIENCE BAND ===================== -->
-    <section class="science" id="science">
-      <div class="science__inner">
-        <p class="eyebrow">Why a helix?</p>
-        <h2 class="science__title">Your biology is the treatment plan.</h2>
-        <p class="science__body">
-          Every therapy we offer reads from the same source code — your cells, your hormones,
-          your DNA. We sequence the whole picture before we ever write a prescription.
-        </p>
-        <div class="stats">
-          <div class="stat"><span class="stat__num" data-count="15">0</span><span class="stat__plus">+</span><span class="stat__label">Years in practice</span></div>
-          <div class="stat"><span class="stat__num" data-count="12000">0</span><span class="stat__plus">+</span><span class="stat__label">Patients treated</span></div>
-          <div class="stat"><span class="stat__num" data-count="40">0</span><span class="stat__plus">+</span><span class="stat__label">Therapies offered</span></div>
-          <div class="stat"><span class="stat__num" data-count="5">0</span><span class="stat__star">★</span><span class="stat__label">Rated care</span></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================== ABOUT =========================== -->
-    <section class="about" id="about">
-      <div class="about__inner">
-        <div class="about__media" role="img" aria-label="Provider portrait placeholder"></div>
-        <div class="about__copy">
-          <p class="eyebrow">About the practice</p>
-          <h2 class="about__title">Medicine that meets you at the cellular level.</h2>
-          <p>
-            Boca Center for Healthy Living blends regenerative science, aesthetic artistry, and
-            preventive medicine under one roof. Our team treats the whole system — so results
-            last, and so you feel the difference, not just see it.
-          </p>
-          <p class="about__note">
-            <!-- Replace with your real mission / founding story / provider bios. -->
-            <em>Placeholder copy — send me your real about text, provider names, and credentials.</em>
-          </p>
-          <a class="btn btn--ghost" href="#contact">Meet the team</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================= CONTACT ========================== -->
-    <section class="contact" id="contact">
-      <div class="contact__inner">
-        <div class="contact__intro">
-          <p class="eyebrow">Begin</p>
-          <h2 class="contact__title">Start your sequence.</h2>
-          <p>Book a consultation and we'll map a plan around your biology.</p>
-          <ul class="contact__meta">
-            <li><strong>Visit</strong><span>Boca Raton, FL · <em>add street address</em></span></li>
-            <li><strong>Call</strong><span><a href="tel:+15610000000">(561) 000-0000</a> · <em>add number</em></span></li>
-            <li><strong>Email</strong><span><a href="mailto:hello@bocamed.com">hello@bocamed.com</a></span></li>
-          </ul>
-        </div>
-        <form class="contact__form" id="lead-form" novalidate>
-          <div class="field">
-            <label for="name">Name</label>
-            <input id="name" name="name" type="text" autocomplete="name" required />
-          </div>
-          <div class="field">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" autocomplete="email" required />
-          </div>
-          <div class="field">
-            <label for="interest">I'm interested in</label>
-            <select id="interest" name="interest">
-              <option>Regenerative Medicine</option>
-              <option>Aesthetics &amp; Laser</option>
-              <option>Hormone Optimization</option>
-              <option>IV Therapy &amp; Nutrition</option>
-              <option>Medical Weight Loss</option>
-              <option>Longevity &amp; Wellness</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="3"></textarea>
-          </div>
-          <button class="btn btn--cta btn--block" type="submit">Request consultation</button>
-          <p class="form__note" id="form-note" role="status" aria-live="polite"></p>
-        </form>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="footer__inner">
-      <span class="nav__name footer__brand">BOCA<small>Center for Healthy Living</small></span>
-      <p class="footer__copy">© <span id="year"></span> Boca Center for Healthy Living. All rights reserved.</p>
-      <p class="footer__fine">Concept redesign · placeholder content for demonstration.</p>
+  <!-- booking / footer -->
+  <footer class="close" id="book">
+    <div class="close-inner">
+      <img class="cta-logo" src="assets/alma-logo.png" alt="Alma — For You. For Life." />
+      <h2>Step out of the cold.</h2>
+      <p>Book a consultation and feel the difference the Soprano&nbsp;Titanium makes.</p>
+      <a class="btn big" href="mailto:hello@example.com?subject=Soprano%20Titanium%20consultation">Book your consultation</a>
+      <p class="fine">Soprano&nbsp;Titanium, TITANIUM, ICE and Alma are trademarks of Alma&nbsp;Lasers. Individual results vary and a course of treatment is usually required; this page is general information, not medical advice — book a consultation with a licensed provider to confirm suitability.</p>
     </div>
   </footer>
 
-  <script type="module" src="js/main.js"></script>
+  <!-- GSAP + ScrollTrigger (jsDelivr) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="scripts/snow.js" defer></script>
+  <script src="scripts/fly.js" defer></script>
 </body>
 </html>
