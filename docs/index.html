@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#06101c" />
   <title>Soprano Titanium — Carved from Ice</title>
-  <meta name="description" content="A first-person flight through the ice to the Soprano Titanium — painless, powerful, permanent hair removal powered by ICE Technology." />
+  <meta name="description" content="Fly through a real ice tunnel to the Soprano Titanium — painless, powerful, permanent hair removal powered by ICE Technology." />
   <link rel="canonical" href="https://adamcox78-afk.github.io/AiMAY2026/" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Soprano Titanium — Carved from Ice" />
-  <meta property="og:description" content="Fly through the ice to the Soprano Titanium — painless, powerful, permanent." />
+  <meta property="og:description" content="Fly through a real ice tunnel to the Soprano Titanium." />
   <meta property="og:url" content="https://adamcox78-afk.github.io/AiMAY2026/" />
   <meta property="og:image" content="https://adamcox78-afk.github.io/AiMAY2026/assets/hero-ice.jpg" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -21,70 +21,42 @@
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="styles/main.css" />
-  <link rel="stylesheet" href="styles/fly.css" />
+  <link rel="stylesheet" href="styles/tunnel.css" />
 
-  <!-- no-JS: skip the 3D flight, show the static fallback -->
-  <noscript><style>.fly{display:none}.fly-fallback{display:block}.hud-title,.hud-hint,.hud-badge{display:none}</style></noscript>
+  <!-- no-JS / no-WebGL: skip the 3D tunnel, show the static fallback -->
+  <noscript><style>#webgl,.fly-spacer,.t-info,.t-reveal,.hud-title,.hud-hint,.hud-badge{display:none!important}.fly-fallback{display:block!important}</style></noscript>
 </head>
 <body>
-  <div class="glacier" aria-hidden="true"></div>
+  <!-- the real ice tunnel (Three.js renders here) -->
+  <canvas id="webgl" aria-hidden="true"></canvas>
+  <!-- falling snow over the scene -->
   <canvas id="snow" aria-hidden="true"></canvas>
 
   <a class="brand" href="#book" aria-label="Alma — For You. For Life."><img src="assets/alma-logo.png" alt="Alma" /></a>
 
-  <!-- HUD: page title (fades as you move forward), hint, live motion badge -->
+  <!-- HUD -->
   <h1 class="hud-title" aria-label="Soprano Titanium"><span class="t-sub">Soprano</span><span class="t-main">Titanium</span></h1>
-  <div class="hud-hint" id="flyHint" aria-hidden="true">scroll to fly forward ▲</div>
+  <div class="hud-hint" id="flyHint" aria-hidden="true">scroll to fly through the ice ▲</div>
   <div class="hud-badge" id="mtBadge" aria-hidden="true">⚙ booting…</div>
 
-  <!-- ===================================================================
-       FIRST-PERSON FLY-THROUGH. The tall #flyTrack gives forward distance;
-       the sticky stage is the camera. fly.js sets --p (0→1) from scroll and
-       every object positions itself in DEPTH (see fly.css) — so you fly
-       FORWARD: through the ice valley, the SOPRANO gate, into the igloo,
-       then down the tunnel as facts rush past, arriving at the device.
-  ==================================================================== -->
-  <section class="fly" id="flyTrack" aria-label="Fly-through to the Soprano Titanium">
-    <div class="fly-stage">
-      <div class="world" id="world" aria-hidden="true">
-        <!-- icy valley we start in (full-bleed backdrop that fades as we set off) -->
-        <div class="obj env" style="--c:0.0; --w:0.16"></div>
+  <!-- facts that surface as you fly down the tunnel (shown/hidden by progress) -->
+  <div class="t-info from-left"  data-from="0.16" data-to="0.30"><p class="eyebrow">Comfort</p><h3>ICE Plus cooling</h3><p>Continuous contact cooling keeps the skin comfortable — no numbing cream.</p></div>
+  <div class="t-info from-right" data-from="0.32" data-to="0.46"><p class="eyebrow">Power</p><h3>Three wavelengths, one pulse</h3><p>755 · 810 · 1064&nbsp;nm fire together through the TITANIUM applicator.</p></div>
+  <div class="t-info from-left"  data-from="0.48" data-to="0.62"><p class="eyebrow">Speed</p><h3>Under 15 minutes</h3><p>A large 4&nbsp;cm² spot glides in motion — most areas finish fast.</p></div>
+  <div class="t-info from-right" data-from="0.64" data-to="0.78"><p class="eyebrow">For everyone</p><h3>Every skin tone</h3><p>FDA-cleared across Fitzpatrick I–VI — even tanned skin, all year.</p></div>
+  <div class="t-info from-left"  data-from="0.78" data-to="0.90"><p class="eyebrow">Beyond hair removal</p><h3>The Titanium Lift</h3><p>The same wavelengths, deeper — collagen, firmer and visibly lifted skin.</p></div>
 
-        <!-- fly through the SOPRANO ice word -->
-        <div class="obj gate-ice" style="--c:0.15; --w:0.16; --speed:3200px"><div class="gate-word">SOPRANO</div></div>
+  <!-- arrival: the device, fading in at the end of the slide -->
+  <div class="t-reveal" id="deviceReveal" aria-hidden="true">
+    <img src="assets/device-soprano.webp" alt="Soprano Titanium device" />
+    <h2>Soprano Titanium</h2>
+    <p>Painless. Powerful. Permanent.</p>
+  </div>
 
-        <!-- into the igloo -->
-        <div class="obj gate-igloo" style="--c:0.30; --w:0.17; --speed:3000px"></div>
+  <!-- tall spacer: provides the scroll distance for the flight -->
+  <div class="fly-spacer" id="flyTrack" aria-hidden="true"></div>
 
-        <!-- the tunnel: rings rushing past -->
-        <i class="ring" style="--c:0.34"></i><i class="ring" style="--c:0.38"></i>
-        <i class="ring" style="--c:0.42"></i><i class="ring" style="--c:0.46"></i>
-        <i class="ring" style="--c:0.50"></i><i class="ring" style="--c:0.54"></i>
-        <i class="ring" style="--c:0.58"></i><i class="ring" style="--c:0.62"></i>
-        <i class="ring" style="--c:0.66"></i><i class="ring" style="--c:0.70"></i>
-        <i class="ring" style="--c:0.74"></i><i class="ring" style="--c:0.78"></i>
-        <i class="ring" style="--c:0.82"></i><i class="ring" style="--c:0.86"></i>
-        <i class="ring" style="--c:0.90"></i><i class="ring" style="--c:0.94"></i>
-
-        <!-- facts rushing past on the tunnel walls -->
-        <div class="obj info" style="--c:0.42; --x:-34vw; --w:0.10"><p class="eyebrow">Comfort</p><h3>Painless by design</h3><p>ICE Plus contact cooling keeps the skin comfortable — no numbing cream.</p></div>
-        <div class="obj info" style="--c:0.52; --x:34vw; --w:0.10"><p class="eyebrow">Power</p><h3>Three wavelengths, one pulse</h3><p>755 · 810 · 1064&nbsp;nm fire together through the TITANIUM applicator.</p></div>
-        <div class="obj info" style="--c:0.62; --x:-34vw; --w:0.10"><p class="eyebrow">Speed</p><h3>Under 15 minutes</h3><p>A large 4&nbsp;cm² spot glides in motion — most areas finish fast.</p></div>
-        <div class="obj info" style="--c:0.72; --x:34vw; --w:0.10"><p class="eyebrow">For everyone</p><h3>Every skin tone</h3><p>FDA-cleared across Fitzpatrick I–VI — even tanned skin, all year.</p></div>
-        <div class="obj info" style="--c:0.82; --x:-34vw; --w:0.10"><p class="eyebrow">Beyond hair removal</p><h3>The Titanium Lift</h3><p>The same wavelengths, deeper — collagen, firmer and visibly lifted skin.</p></div>
-
-        <!-- arrival: the device -->
-        <div class="obj chamber" style="--c:1.0; --w:0.16; --speed:2400px">
-          <p class="eyebrow">You've arrived</p>
-          <img src="assets/device-soprano.webp" alt="Soprano Titanium device" />
-          <h2>Soprano Titanium</h2>
-          <p>Painless. Powerful. Permanent.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- static fallback for reduced-motion / no-JS -->
+  <!-- static fallback (no-JS / no-WebGL / reduced-motion) -->
   <section class="fly-fallback">
     <img src="assets/device-soprano.webp" alt="Soprano Titanium device" />
     <h1>Soprano Titanium</h1>
@@ -110,10 +82,9 @@
     </div>
   </footer>
 
-  <!-- GSAP + ScrollTrigger (jsDelivr) -->
-  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <!-- Three.js (WebGL) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
   <script src="scripts/snow.js" defer></script>
-  <script src="scripts/fly.js" defer></script>
+  <script src="scripts/tunnel.js" defer></script>
 </body>
 </html>

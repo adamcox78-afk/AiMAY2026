@@ -1,13 +1,13 @@
 /* =====================================================================
    Soprano Titanium — base, backdrop, HUD, footer, fallback.
-   The first-person fly-through world lives in fly.css.
+   The WebGL ice tunnel lives in tunnel.js / tunnel.css.
    ===================================================================== */
 
 :root {
   --ink: #06101c;
   --ice-1: #f4fbff; --ice-2: #bfe6ff; --ice-3: #7fc7f0; --ice-4: #4aa3d6;
   --teal: #54e3d6; --muted: #9fc0d8; --maxw: 1120px;
-  --p: 0;   /* forward-travel progress, set by fly.js */
+  --p: 0;   /* forward-travel progress, set by tunnel.js */
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -57,9 +57,9 @@ a { color: inherit; }
 
 /* ---- static fallback (reduced-motion / no-JS) ---- */
 .fly-fallback { display: none; }
-html.reduced .fly { display: none !important; }
+html.reduced #webgl, html.reduced .fly-spacer, html.reduced .t-info, html.reduced .t-reveal,
+html.reduced .hud-title, html.reduced .hud-hint, html.reduced .hud-badge { display: none !important; }
 html.reduced .fly-fallback { display: block; }
-html.reduced .hud-title, html.reduced .hud-hint { display: none; }
 .fly-fallback { position: relative; z-index: 2; max-width: 760px; margin: 0 auto; padding: 16vh 6vw 4vh; text-align: center; }
 .fly-fallback img { width: min(260px, 60vw); height: auto; filter: drop-shadow(0 30px 50px rgba(0,0,0,0.6)); }
 .fly-fallback h1 { font-family: 'Anton', 'Arial Black', sans-serif; font-size: clamp(2.4rem, 8vw, 4.5rem); margin: 1rem 0 0.5rem; }
