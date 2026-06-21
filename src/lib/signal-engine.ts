@@ -202,15 +202,17 @@ function computeZones(
   resistance: number
 ) {
   if (direction === "LONG") {
+    // Invalidation sits below price: use the nearer of recent support or a
+    // 1.5-ATR stop (max picks the closer level, never an absurdly wide one).
     return {
       entryZone: { low: round(price - 0.6 * a), high: round(price + 0.15 * a) },
-      invalidation: round(Math.min(support, price - 1.2 * a)),
+      invalidation: round(Math.max(Math.min(support, price - 0.8 * a), price - 1.5 * a)),
     };
   }
   if (direction === "SHORT") {
     return {
       entryZone: { low: round(price - 0.15 * a), high: round(price + 0.6 * a) },
-      invalidation: round(Math.max(resistance, price + 1.2 * a)),
+      invalidation: round(Math.min(Math.max(resistance, price + 0.8 * a), price + 1.5 * a)),
     };
   }
   return {

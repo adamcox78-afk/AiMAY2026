@@ -96,13 +96,26 @@ export function generateCandles(symbol: string, count = 180): Candle[] {
     const volume = baseVol * (0.6 + rng() * 1.4) * (1 + Math.abs(ret) * 8);
     candles.push({
       t: start + i * dayMs,
-      o: round(open),
-      h: round(high),
-      l: round(low),
-      c: round(close),
+      o: open,
+      h: high,
+      l: low,
+      c: close,
       v: Math.round(volume),
     });
     price = close;
+  }
+
+  // Rescale so the latest close lands near the realistic base price. This keeps
+  // current quotes believable (BTC ~$67k, not a runaway compounded number) while
+  // preserving the trend shape; ratio-based indicators are unaffected.
+  const lastClose = candles[candles.length - 1].c || base;
+  const target = base * (0.92 + rng() * 0.16);
+  const factor = target / lastClose;
+  for (const c of candles) {
+    c.o = round(c.o * factor);
+    c.h = round(c.h * factor);
+    c.l = round(c.l * factor);
+    c.c = round(c.c * factor);
   }
   return candles;
 }
