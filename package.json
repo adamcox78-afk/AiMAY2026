@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "test": "node --test --import tsx tests/*.test.ts"
+    "test": "node --test --import tsx tests/*.test.ts",
+    "ruflo:manifest": "tsx scripts/ruflo-manifest.ts"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "1.1.1",
