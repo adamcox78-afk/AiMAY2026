@@ -1,15 +1,17 @@
 /**
- * Ruflo client — the automation/monitoring/alerting seam.
+ * Ruflo client — automation / monitoring / alerting seam.
  *
- * In production this dispatches to the Ruflo daemon (MCP/CLI) which owns the
- * cron schedule, retries, logging and monitoring. Until that daemon is wired up,
- * the client logs structured events and routes alerts through the channel
- * adapters, so the whole automation surface is exercised locally.
+ * Ruflo owns the cron schedule, retries, logging and monitoring. It dispatches to
+ * the engine and moves bytes; it NEVER makes a trading decision.
  *
- * Ruflo NEVER makes a trading decision. It triggers the engine and moves bytes.
+ * Connectivity: considered "connected" when a Ruflo credential is configured
+ * (RUFLO_API_KEY or RUFLO_WEBHOOK_SECRET). Every `log()` is recorded to the
+ * run-log (powering the health endpoint) and, when RUFLO_API_URL is set, forwarded
+ * to Ruflo's ingestion endpoint for centralized monitoring.
  */
 
 import { dispatchAlert, type AlertDispatch, type ChannelResult } from "../../alerts/channels";
+import { recordRufloRun } from "../run-log";
 import { RUFLO_WORKFLOWS, type RufloWorkflowDef } from "./workflows";
 
 export interface RufloStatus {
@@ -19,9 +21,8 @@ export interface RufloStatus {
 }
 
 export class RufloClient {
-  /** True when a real Ruflo daemon/secret is configured. */
   private get connected(): boolean {
-    return Boolean(process.env.RUFLO_WEBHOOK_SECRET && process.env.RUFLO_BASE_URL);
+    return Boolean(process.env.RUFLO_API_KEY || process.env.RUFLO_WEBHOOK_SECRET);
   }
 
   status(): RufloStatus {
@@ -37,10 +38,25 @@ export class RufloClient {
     return RUFLO_WORKFLOWS;
   }
 
-  /** Structured monitoring/logging hook. */
+  /** Structured monitoring/logging hook — records locally and optionally forwards. */
   log(event: string, payload: Record<string, unknown> = {}): void {
-    // In production: forward to Ruflo's logging/monitoring sink.
     console.info(`[ruflo] ${event}`, JSON.stringify(payload));
+    recordRufloRun(event, payload);
+    this.forward(event, payload);
+  }
+
+  /** Best-effort forward to a Ruflo monitoring endpoint; never throws. */
+  private forward(event: string, payload: Record<string, unknown>): void {
+    const url = process.env.RUFLO_API_URL;
+    const key = process.env.RUFLO_API_KEY;
+    if (!url || !key) return;
+    void fetch(`${url.replace(/\/$/, "")}/events`, {
+      method: "POST",
+      headers: { authorization: `Bearer ${key}`, "content-type": "application/json" },
+      body: JSON.stringify({ event, payload, at: new Date().toISOString() }),
+    }).catch(() => {
+      /* monitoring forward is best-effort */
+    });
   }
 
   /** Route an alert to its channels (email/sms/push/telegram/discord). */

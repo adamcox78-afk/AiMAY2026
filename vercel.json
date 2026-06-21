@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "crons": [
+    { "path": "/api/ruflo/scan-market", "schedule": "*/15 * * * *" },
+    { "path": "/api/ruflo/scan-watchlist", "schedule": "*/5 * * * *" },
+    { "path": "/api/ruflo/send-alert", "schedule": "*/15 * * * *" },
+    { "path": "/api/ruflo/log-result", "schedule": "0 * * * *" },
+    { "path": "/api/ruflo/daily-report", "schedule": "0 22 * * *" },
+    { "path": "/api/ruflo/media-briefing", "schedule": "0 13 * * *" },
+    { "path": "/api/ruflo/lead-followup", "schedule": "0 16 * * *" }
+  ]
+}

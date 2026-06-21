@@ -11,3 +11,18 @@ ruvector.db
 # Dependencies & logs
 node_modules/
 *.log
+
+# Next.js / build output
+.next/
+/out/
+/build
+next-env.d.ts
+*.tsbuildinfo
+
+# Env files (never commit secrets) — .env.example is intentionally tracked
+.env
+.env*.local
+
+# Vercel / OS
+.vercel
+.DS_Store

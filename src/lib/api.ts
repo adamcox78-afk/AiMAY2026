@@ -23,16 +23,20 @@ export function apiError(message: string, status = 400): Response {
 }
 
 /**
- * Guard for /api/ruflo/* endpoints. Returns a 401 Response when the shared
- * secret is configured and the caller doesn't present it. In local dev (no
- * secret set) it allows the call so the endpoints are easy to exercise.
+ * Guard for /api/ruflo/* endpoints. Accepts either:
+ *  - the Ruflo daemon's `x-ruflo-secret: <RUFLO_WEBHOOK_SECRET>` header, or
+ *  - Vercel Cron's `Authorization: Bearer <CRON_SECRET>` header.
+ * In local dev (neither secret configured) it allows the call so the endpoints
+ * are easy to exercise.
  */
 export function rufloGuard(req: Request): Response | null {
+  const cronSecret = process.env.CRON_SECRET;
+  if (cronSecret && req.headers.get("authorization") === `Bearer ${cronSecret}`) return null;
+
   const expected = process.env.RUFLO_WEBHOOK_SECRET;
   if (!expected) return null; // dev mode — open
-  const got = req.headers.get("x-ruflo-secret");
-  if (got !== expected) return apiError("Unauthorized: invalid Ruflo secret", 401);
-  return null;
+  if (req.headers.get("x-ruflo-secret") === expected) return null;
+  return apiError("Unauthorized: invalid Ruflo secret", 401);
 }
 
 /** Parse + validate a JSON body. Returns data or a 400 Response. */

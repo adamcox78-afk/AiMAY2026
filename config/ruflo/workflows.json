@@ -1,0 +1,58 @@
+[
+  {
+    "id": "market-scan",
+    "name": "Market Scan",
+    "schedule": "*/15 * * * *",
+    "endpoint": "/api/ruflo/scan-market",
+    "description": "Every 15 min: scan the core universe, generate & store signals."
+  },
+  {
+    "id": "watchlist-scan",
+    "name": "Watchlist Scan",
+    "schedule": "*/5 * * * *",
+    "endpoint": "/api/ruflo/scan-watchlist",
+    "description": "Every 5 min: re-scan each user's watchlist assets."
+  },
+  {
+    "id": "confidence-alert",
+    "name": "Confidence Alert",
+    "schedule": "*/15 * * * *",
+    "endpoint": "/api/ruflo/send-alert",
+    "description": "Alert when a signal's confidence exceeds 72%."
+  },
+  {
+    "id": "prediction-market-alert",
+    "name": "Prediction Market Alert",
+    "schedule": "*/15 * * * *",
+    "endpoint": "/api/ruflo/send-alert",
+    "description": "Alert when Polymarket/Kalshi odds move more than 7%."
+  },
+  {
+    "id": "signal-outcome-logger",
+    "name": "Signal Outcome Logger",
+    "schedule": "0 * * * *",
+    "endpoint": "/api/ruflo/log-result",
+    "description": "Hourly: mark resolved signals won / lost / invalidated."
+  },
+  {
+    "id": "daily-performance-report",
+    "name": "Daily Performance Report",
+    "schedule": "0 22 * * *",
+    "endpoint": "/api/ruflo/daily-report",
+    "description": "Daily: win rate, best/worst signals, long vs short performance."
+  },
+  {
+    "id": "media-briefing",
+    "name": "Daily Media Briefing",
+    "schedule": "0 13 * * *",
+    "endpoint": "/api/ruflo/media-briefing",
+    "description": "Daily: trigger Higgsfield to render the 60-second market briefing."
+  },
+  {
+    "id": "lead-followup",
+    "name": "Lead Follow-ups",
+    "schedule": "0 16 * * *",
+    "endpoint": "/api/ruflo/lead-followup",
+    "description": "Daily: personalized follow-ups for trials, upgrades, and re-engagement."
+  }
+]

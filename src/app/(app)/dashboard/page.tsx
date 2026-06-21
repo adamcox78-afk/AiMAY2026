@@ -7,6 +7,7 @@ import { SignalList } from "@/components/signal/signal-list";
 import { FactorBreakdown } from "@/components/signal/factor-breakdown";
 import { PriceChart } from "@/components/charts/price-chart";
 import { ProbabilityCone } from "@/components/charts/probability-cone";
+import { IntegrationStatusPanel } from "@/components/integrations/status-panel";
 import { getAllSignals, getMarketSnapshot, getSignal } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import type { Signal } from "@/lib/types";
@@ -74,6 +75,8 @@ export default async function DashboardPage({
         <Tile icon={TrendingDown} label="Short signals" value={String(shorts)} accent="text-[hsl(var(--short))]" />
         <Tile icon={Activity} label="Avg confidence" value={`${avgConf}%`} accent="text-primary" />
       </div>
+
+      <IntegrationStatusPanel />
 
       {/* Asset selector chips */}
       <div className="flex flex-wrap gap-2">

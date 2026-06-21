@@ -120,11 +120,59 @@ Other scripts:
 npm run build        # production build
 npm run typecheck    # tsc --noEmit
 npm test             # signal-engine invariants
-npm run ruflo:manifest > config/ruflo/workflows.json   # export cron manifest
+npm run ruflo:manifest   # write config/ruflo/workflows.json + curl cheat-sheet
+npm run ruflo:dev        # start the Ruflo worker (scheduler driving /api/ruflo/*)
+npm run ruflo:once       # fire every Ruflo workflow once, then exit
+npm run ruflo:mcp        # start the real claude-flow daemon (npx ruflo mcp start)
 ```
 
 Everything is optional in `.env.local`. With **no** keys the platform is fully
 functional on mock data. Add keys to light up live data, persistence, alerts, and media.
+
+---
+
+## Connecting Higgsfield & Ruflo (going live)
+
+The integration code is real — authenticated HTTP calls, not mocks. It falls back
+to mock/stub mode **only** when a key is absent. To go live:
+
+**1. Create your local env file and add keys**
+
+```bash
+cp .env.example .env.local
+```
+
+Then edit `.env.local` (it is gitignored — never committed):
+
+```dotenv
+# Higgsfield — media generation
+HIGGSFIELD_API_KEY=hf_xxx              # ← paste your key here to enable rendering
+HIGGSFIELD_API_URL=https://api.higgsfield.ai   # override if your contract differs
+
+# Ruflo — automation
+RUFLO_WEBHOOK_SECRET=choose-a-strong-secret    # protects /api/ruflo/* endpoints
+RUFLO_API_KEY=                                  # optional: forward events to Ruflo
+NEXT_PUBLIC_APP_URL=http://localhost:3000       # the worker/cron target
+```
+
+**2. Turn Ruflo on** — start the app, then the worker (in a second terminal):
+
+```bash
+npm run dev          # terminal 1 — the app
+npm run ruflo:dev    # terminal 2 — Ruflo worker (tries `ruflo` CLI, else the bundled scheduler)
+# one-shot (fire every workflow once): npm run ruflo:once
+# real claude-flow daemon (optional):  npm run ruflo:mcp
+```
+
+**3. Verify** — open **`/health`** (or `GET /api/health`). Higgsfield/Ruflo flip
+to **Connected** when their keys are present, with the last run/generation shown.
+The dashboard also has a live **Integrations** status panel.
+
+> **Network note:** outbound calls to Higgsfield require the host to be reachable.
+> In a locked-down/sandboxed environment you may see
+> `403 Host not in allowlist: api.higgsfield.ai` — add the host to your egress
+> allowlist (or run outside the sandbox). The client logs this and falls back to a
+> storyboard so the app never breaks.
 
 ---
 
@@ -165,7 +213,10 @@ Persistence is optional. To enable it:
 | `POST /api/ruflo/send-alert` | `*/15 * * * *` | Confidence + Prediction-market alerts |
 | `POST /api/ruflo/log-result` | `0 * * * *` | Signal Outcome Logger |
 | `POST /api/ruflo/daily-report` | `0 22 * * *` | Daily Performance Report |
+| `POST /api/ruflo/media-briefing` | `0 13 * * *` | Higgsfield market briefing |
+| `POST /api/ruflo/lead-followup` | `0 16 * * *` | Lead follow-ups |
 | `POST /api/ruflo/generate-signal` | on demand | Single-asset signal |
+| `GET /api/health` | — | Integration status + last run/generation |
 
 Register them with: `npm run ruflo:manifest` (prints JSON + a curl cheat-sheet).
 

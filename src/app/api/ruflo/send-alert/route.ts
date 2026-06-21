@@ -18,6 +18,32 @@ const bodySchema = z.object({
   channels: z.array(z.enum(["email", "sms", "push", "telegram", "discord"])).default([]),
 });
 
+/** GET (cron): run the alert sweeps and dispatch everything over threshold. */
+export async function GET(req: Request): Promise<Response> {
+  const denied = rufloGuard(req);
+  if (denied) return denied;
+  const [confidenceHits, predictionHits] = await Promise.all([
+    runConfidenceAlertSweep(),
+    runPredictionMarketAlertSweep(),
+  ]);
+  const dispatched = await Promise.all(
+    confidenceHits.map((h) =>
+      ruflo.sendAlert({
+        symbol: h.symbol,
+        direction: h.direction,
+        confidence: h.confidence,
+        message: h.message,
+        channels: [],
+      })
+    )
+  );
+  ruflo.log("alert-sweep.completed", {
+    confidenceHits: confidenceHits.length,
+    predictionHits: predictionHits.length,
+  });
+  return apiOk({ mode: "sweep", confidenceHits, predictionHits, dispatchedCount: dispatched.length });
+}
+
 /**
  * Ruflo Send Alert. Two modes:
  *  - Explicit: { symbol, direction, confidence, message } → dispatch that alert.
