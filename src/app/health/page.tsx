@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ruflo, RUFLO_WORKFLOWS } from "@/lib/integrations/ruflo";
 import { higgsfield } from "@/lib/integrations/higgsfield";
-import { getRunLog } from "@/lib/integrations/run-log";
+import { getRunLogSnapshot } from "@/lib/integrations/run-log";
 import { isSupabaseConfigured } from "@/lib/db/supabase";
 import { cn } from "@/lib/utils";
 
@@ -31,10 +31,10 @@ function Dot({ ok }: { ok: boolean }) {
   );
 }
 
-export default function HealthPage() {
+export default async function HealthPage() {
   const rs = ruflo.status();
   const hs = higgsfield.status();
-  const log = getRunLog();
+  const log = await getRunLogSnapshot();
 
   const services = [
     { icon: RadioTower, label: "Ruflo (automation)", ok: rs.connected, detail: rs.connected ? `${rs.mode} mode · ${rs.workflows} workflows` : "Local mode — set RUFLO_API_KEY / RUFLO_WEBHOOK_SECRET" },

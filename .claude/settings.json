@@ -166,7 +166,8 @@
       "Bash(npx @claude-flow*)",
       "Bash(npx claude-flow*)",
       "Bash(node .claude/*)",
-      "mcp__claude-flow__*"
+      "mcp__claude-flow__*",
+      "mcp__higgsfield__*"
     ],
     "deny": [
       "Read(./.env)",
@@ -178,6 +179,11 @@
     "CLAUDE_FLOW_V3_ENABLED": "true",
     "CLAUDE_FLOW_HOOKS_ENABLED": "true"
   },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "claude-flow",
+    "higgsfield"
+  ],
   "claudeFlow": {
     "version": "3.0.0",
     "enabled": true,

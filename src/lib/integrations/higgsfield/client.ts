@@ -67,7 +67,7 @@ export class HiggsfieldClient {
     const fallbackId = `hf_${brief.kind}_${Date.now().toString(36)}`;
 
     if (!this.connected) {
-      recordHiggsfield(brief.kind, "stub");
+      recordHiggsfield(brief.kind, "stub", fallbackId);
       return {
         id: fallbackId,
         status: "stub",
@@ -96,7 +96,7 @@ export class HiggsfieldClient {
 
       const data = (await res.json()) as Record<string, unknown>;
       const job = parseJob(data, brief, fallbackId);
-      recordHiggsfield(brief.kind, job.status);
+      recordHiggsfield(brief.kind, job.status, job.id, job.assetUrl);
       return job;
     } catch (err) {
       const message = err instanceof Error ? err.message : "unknown error";

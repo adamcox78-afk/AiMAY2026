@@ -3,7 +3,7 @@ import { Clapperboard, Database, ExternalLink, RadioTower } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { ruflo } from "@/lib/integrations/ruflo";
 import { higgsfield } from "@/lib/integrations/higgsfield";
-import { getRunLog } from "@/lib/integrations/run-log";
+import { getRunLogSnapshot } from "@/lib/integrations/run-log";
 import { isSupabaseConfigured } from "@/lib/db/supabase";
 import { cn } from "@/lib/utils";
 
@@ -54,10 +54,10 @@ function Item({
 }
 
 /** Live, env-driven integration status. Flips to "Connected" when keys are present. */
-export function IntegrationStatusPanel() {
+export async function IntegrationStatusPanel() {
   const rs = ruflo.status();
   const hs = higgsfield.status();
-  const log = getRunLog();
+  const log = await getRunLogSnapshot();
 
   return (
     <Card>

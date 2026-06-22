@@ -213,3 +213,17 @@ exception when duplicate_object then null; end $$;
 
 -- Public read-only reference data (signals, assets, prediction markets) is served
 -- through the API with the service role; keep RLS off or add read policies as needed.
+
+-- ---- run_log (observability: Ruflo workflow runs + Higgsfield generations) --
+create table if not exists public.run_log (
+  id uuid primary key default gen_random_uuid(),
+  source text not null check (source in ('ruflo', 'higgsfield')),
+  workflow_id text not null,
+  job_id text,
+  status text not null,
+  summary text,
+  asset_url text,
+  ok boolean not null default true,
+  created_at timestamptz not null default now()
+);
+create index if not exists run_log_source_idx on public.run_log (source, created_at desc);

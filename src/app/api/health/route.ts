@@ -1,7 +1,7 @@
 import { apiOk } from "@/lib/api";
 import { ruflo } from "@/lib/integrations/ruflo";
 import { higgsfield } from "@/lib/integrations/higgsfield";
-import { getRunLog } from "@/lib/integrations/run-log";
+import { getRunLogSnapshot } from "@/lib/integrations/run-log";
 import { isSupabaseConfigured } from "@/lib/db/supabase";
 
 export const dynamic = "force-dynamic";
@@ -11,7 +11,7 @@ export const runtime = "nodejs";
 export async function GET(): Promise<Response> {
   const rs = ruflo.status();
   const hs = higgsfield.status();
-  const log = getRunLog();
+  const log = await getRunLogSnapshot();
   return apiOk({
     status: "operational",
     time: new Date().toISOString(),
