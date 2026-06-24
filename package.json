@@ -14,7 +14,8 @@
     "ruflo:dev": "ruflo dev || node scripts/ruflo-worker.js",
     "ruflo:start": "ruflo start || node scripts/ruflo-worker.js",
     "ruflo:once": "node scripts/ruflo-worker.js --once",
-    "ruflo:mcp": "npx -y ruflo@latest mcp start"
+    "ruflo:mcp": "npx -y ruflo@latest mcp start",
+    "higgsfield:smoke": "node scripts/higgsfield-smoke.js"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "1.1.1",
