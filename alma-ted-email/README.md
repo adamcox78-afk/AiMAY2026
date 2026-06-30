@@ -25,11 +25,11 @@ one file per slot:
 
 | Filename | Your photo |
 |----------|-----------|
-| `01-crown-density-x4.jpg` | Back-of-head crown/part, "Before TED / After TED x4" (green curtain) |
-| `02-hairline-frontal-x4.jpg` | Woman holding hair at temples, frontal hairline, "Before TED / After TED x4" |
-| `03-frontal-coverage.jpg` | "Hair Growth Laser — ALMA TED" frontal coverage, BEFORE / AFTER |
-| `04-crown-after-1-treatment.jpg` | Crown shot, "After 1 TED Treatment", Before / After |
-| `05-part-line-density.jpg` | Top-of-head part line, before / after density |
+| `01-savvyderm-crown-part.jpg` | Top-of-head crown/part line, before/after (Savvyderm Skin Clinic logo) |
+| `02-temple-hairline-side.jpg` | Side-profile dark hair, temple/hairline, before/after |
+| `03-almatedny-frontal-x4.jpg` | Woman, frontal hairline, "Before TED / After TED x4" (green curtain, @almatedny) |
+| `04-alma-crown-baseline-vs-3tx.jpg` | Crown shot, "BASELINE / POST 3 TXS" (official Alma TED, Darshan Vaidya MD) |
+| `05-crown-after-2tx.jpg` | Gray-hair crown, before/after ("after only two treatments", drbrittanyleader IG) |
 
 Notes:
 - Use `.jpg` (smaller, best for photos). If you prefer PNG, change the
