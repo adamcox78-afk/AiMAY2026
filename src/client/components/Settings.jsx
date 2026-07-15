@@ -6,6 +6,10 @@ export default function Settings({ notify }) {
   const [settings, setSettings] = useState(null);
   const [authToken, setAuthToken] = useState('');
   const [saving, setSaving] = useState(false);
+  const [testing, setTesting] = useState(false);
+  const [connection, setConnection] = useState(null);
+  const [testTo, setTestTo] = useState('');
+  const [testSending, setTestSending] = useState(false);
 
   useEffect(() => { api.get('/settings').then(setSettings); }, []);
 
@@ -31,6 +35,35 @@ export default function Settings({ notify }) {
   };
 
   const simulated = settings.provider !== 'twilio';
+
+  const testConnection = async () => {
+    setTesting(true);
+    setConnection(null);
+    try {
+      const result = await api.post('/settings/test', {
+        accountSid: settings.accountSid,
+        authToken: authToken || undefined,
+        fromNumber: settings.fromNumber
+      });
+      setConnection(result);
+    } catch (err) {
+      setConnection({ ok: false, error: err.message });
+    } finally {
+      setTesting(false);
+    }
+  };
+
+  const sendTest = async () => {
+    setTestSending(true);
+    try {
+      const result = await api.post('/settings/test-send', { to: testTo });
+      notify(result.simulated ? 'Test message simulated ✓ (switch to Live for a real text)' : 'Test text sent — check your phone!');
+    } catch (err) {
+      notify(err.message, 'err');
+    } finally {
+      setTestSending(false);
+    }
+  };
 
   return (
     <div className="stack settings">
@@ -60,6 +93,40 @@ export default function Settings({ notify }) {
           <div className="field">
             <label className="label">From number</label>
             <input className="input mono" placeholder="+15550100000" value={settings.fromNumber} onChange={(e) => set({ fromNumber: e.target.value })} />
+          </div>
+          <div className="field">
+            <label className="label">Public base URL <span className="td-dim">(needed for live MMS)</span></label>
+            <input className="input mono" placeholder="https://textradar.example.com" value={settings.publicBaseUrl || ''} onChange={(e) => set({ publicBaseUrl: e.target.value })} />
+            <p className="hint">Carriers fetch pictures/GIFs/videos from your server, so it must be reachable on the internet when sending live MMS. Not needed in Simulation mode.</p>
+          </div>
+
+          <div className="row gap">
+            <button className="btn" disabled={testing || !settings.accountSid} onClick={testConnection}>
+              {testing ? 'Checking…' : 'Test connection'}
+            </button>
+            {connection && (
+              connection.ok ? (
+                <span className="conn conn-ok">
+                  ✓ Connected to “{connection.account.name}” ({connection.account.status}
+                  {connection.account.type === 'Trial' ? ' · trial' : ''})
+                  {connection.fromNumberOk === true && ' · from-number verified'}
+                  {connection.fromNumberOk === false && ' — but that from-number isn’t on this account'}
+                </span>
+              ) : (
+                <span className="conn conn-err">✕ {connection.error}</span>
+              )
+            )}
+          </div>
+
+          <div className="field">
+            <label className="label">Send a test text to yourself</label>
+            <div className="row gap">
+              <input className="input mono" placeholder="Your mobile number" value={testTo} onChange={(e) => setTestTo(e.target.value)} />
+              <button className="btn" disabled={!testTo.trim() || testSending} onClick={sendTest}>
+                {testSending ? 'Sending…' : 'Send test'}
+              </button>
+            </div>
+            <p className="hint">Uses your saved settings — save first if you just changed credentials. In Simulation mode this fakes the send.</p>
           </div>
         </div>
       </Card>

@@ -2,10 +2,35 @@
 
 import { Router } from 'express';
 import { db, save, uid } from './store.js';
-import { normalizePhone, isOptOutMessage, personalize, segmentInfo } from './sms.js';
+import { normalizePhone, isOptOutMessage, personalize, segmentInfo, sendSms, verifyTwilio } from './sms.js';
 import { createCampaign, startCampaign, pauseCampaign, campaignStats, resolveRecipients } from './engine.js';
+import { extractContacts } from '../shared/parse.js';
+import { saveMedia } from './media.js';
 
 const api = Router();
+
+// ---- import helpers: OCR + media uploads -----------------------------------
+
+// Photo of a contact list → OCR text → parsed rows ready for review.
+api.post('/ocr', async (req, res) => {
+  const match = /^data:image\/[\w.+-]+;base64,(.+)$/s.exec(String(req.body?.image || ''));
+  if (!match) return res.status(400).json({ error: 'Expected an image as a base64 data URL.' });
+  try {
+    const { ocrImage } = await import('./ocr.js');
+    const text = await ocrImage(Buffer.from(match[1], 'base64'));
+    res.json({ text, rows: extractContacts(text) });
+  } catch (err) {
+    console.error('ocr failed:', err);
+    res.status(500).json({ error: `Could not read the photo: ${err.message}` });
+  }
+});
+
+// MMS attachment upload (pictures, GIFs, videos).
+api.post('/media', (req, res) => {
+  const result = saveMedia(req.body?.file, req.body?.name);
+  if (result.error) return res.status(400).json(result);
+  res.status(201).json(result);
+});
 
 // ---- dashboard -------------------------------------------------------------
 
@@ -141,9 +166,15 @@ api.post('/campaigns/preview', (req, res) => {
 });
 
 api.post('/campaigns', (req, res) => {
-  const { name, message, contactIds = [], groupIds = [], sendNow = true } = req.body || {};
-  if (!String(message || '').trim()) return res.status(400).json({ error: 'Message text is required.' });
-  const result = createCampaign({ name, message, contactIds, groupIds });
+  const { name, message, contactIds = [], groupIds = [], media = [], sendNow = true } = req.body || {};
+  const state = db();
+  if (!String(message || '').trim() && media.length === 0) {
+    return res.status(400).json({ error: 'Write a message or attach media.' });
+  }
+  if (media.length > 0 && state.settings.provider === 'twilio' && !state.settings.publicBaseUrl) {
+    return res.status(400).json({ error: 'Live MMS needs a Public base URL in Settings so carriers can fetch your media.' });
+  }
+  const result = createCampaign({ name, message, contactIds, groupIds, media });
   if (result.error) return res.status(400).json(result);
   if (sendNow) startCampaign(result.campaign.id);
   res.status(201).json(result.campaign);
@@ -170,13 +201,38 @@ api.get('/settings', (req, res) => {
 
 api.put('/settings', (req, res) => {
   const state = db();
-  const allowed = ['provider', 'accountSid', 'authToken', 'fromNumber', 'messagesPerSecond', 'appendOptOut', 'optOutText'];
+  const allowed = ['provider', 'accountSid', 'authToken', 'fromNumber', 'messagesPerSecond', 'appendOptOut', 'optOutText', 'publicBaseUrl'];
   for (const key of allowed) {
     if (req.body?.[key] !== undefined) state.settings[key] = req.body[key];
   }
   save();
   const { authToken, ...rest } = state.settings;
   res.json({ ...rest, hasAuthToken: Boolean(authToken) });
+});
+
+// Verify Twilio credentials (accepts unsaved values from the form so users
+// can test before saving; falls back to stored settings).
+api.post('/settings/test', async (req, res) => {
+  const stored = db().settings;
+  const candidate = {
+    accountSid: req.body?.accountSid || stored.accountSid,
+    authToken: req.body?.authToken || stored.authToken,
+    fromNumber: req.body?.fromNumber || stored.fromNumber
+  };
+  res.json(await verifyTwilio(candidate));
+});
+
+// Send one test message (to yourself) using current settings + provider mode.
+api.post('/settings/test-send', async (req, res) => {
+  const to = normalizePhone(req.body?.to);
+  if (!to) return res.status(400).json({ error: `Invalid phone number: "${req.body?.to ?? ''}"` });
+  const settings = db().settings;
+  const result = await sendSms(settings, {
+    to,
+    body: req.body?.body || 'Text Radar test message — your gateway is connected. 🎯'
+  });
+  if (!result.ok) return res.status(502).json({ error: result.error });
+  res.json({ ok: true, sid: result.sid, simulated: settings.provider !== 'twilio' });
 });
 
 // ---- inbound webhook (STOP handling) -----------------------------------------------

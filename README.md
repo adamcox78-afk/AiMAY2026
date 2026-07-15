@@ -18,16 +18,22 @@ Tests: `npm test`.
 
 ## How it works
 
-- **Contacts** — add people one at a time or paste a CSV (`First, Last, Phone`),
-  organize them into groups, and toggle opt-out status.
+- **Contacts** — import from anywhere: **take a photo** of a printed or
+  handwritten list (built-in OCR extracts names + numbers, no cloud service),
+  drop a CSV/TXT/vCard file, paste a list, or add people one at a time. Every
+  import goes through an editable review step before saving. Organize contacts
+  into groups and toggle opt-out status.
 - **New Blast** — pick groups and/or individual contacts, write one message with
-  `{{firstName}}` / `{{lastName}}` / `{{name}}` tokens, and watch the live
-  iPhone preview show exactly what each person receives. Every recipient gets
-  their own individual text — never a group thread.
+  `{{firstName}}` / `{{lastName}}` / `{{name}}` tokens, and **attach pictures,
+  GIFs, or videos** (MMS). The live iPhone preview shows exactly what each
+  person receives. Every recipient gets their own individual text — never a
+  group thread.
 - **Campaigns** — live per-recipient delivery status, pause/resume, progress.
 - **Settings** — starts in **Simulation** mode (no real texts, no credentials
-  needed). Switch to **Live** and enter your Twilio Account SID, auth token,
-  and from-number to send real SMS. Credentials stay in the local `data/`
+  needed). Switch to **Live**, enter your Twilio Account SID, auth token, and
+  from-number, then hit **Test connection** to verify them against Twilio and
+  **Send a test text to yourself**. Live MMS also needs a **Public base URL**
+  so carriers can fetch your media. Credentials stay in the local `data/`
   folder, which is gitignored.
 
 ## Compliance

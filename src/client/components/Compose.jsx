@@ -14,7 +14,10 @@ export default function Compose({ notify, go }) {
   const [preview, setPreview] = useState(null);
   const [sending, setSending] = useState(false);
   const [sampleIx, setSampleIx] = useState(0);
+  const [media, setMedia] = useState([]);
+  const [uploading, setUploading] = useState(false);
   const textRef = useRef(null);
+  const mediaRef = useRef(null);
 
   useEffect(() => {
     Promise.all([api.get('/groups'), api.get('/contacts')]).then(([g, c]) => {
@@ -25,12 +28,12 @@ export default function Compose({ notify, go }) {
 
   // Live preview (debounced) — personalized body + segment math from the server.
   useEffect(() => {
-    if (!message.trim() || (groupIds.length === 0 && contactIds.length === 0)) { setPreview(null); return; }
+    if ((!message.trim() && media.length === 0) || (groupIds.length === 0 && contactIds.length === 0)) { setPreview(null); return; }
     const t = setTimeout(() => {
       api.post('/campaigns/preview', { message, groupIds, contactIds }).then(setPreview).catch(() => {});
     }, 250);
     return () => clearTimeout(t);
-  }, [message, groupIds, contactIds]);
+  }, [message, groupIds, contactIds, media.length]);
 
   useEffect(() => { setSampleIx(0); }, [preview?.recipientCount]);
 
@@ -49,10 +52,31 @@ export default function Compose({ notify, go }) {
     });
   };
 
+  const attachFiles = async (files) => {
+    setUploading(true);
+    try {
+      for (const file of Array.from(files || []).slice(0, 10 - media.length)) {
+        const dataUrl = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () => reject(new Error(`Could not read ${file.name}`));
+          reader.readAsDataURL(file);
+        });
+        const saved = await api.post('/media', { file: dataUrl, name: file.name });
+        setMedia((m) => [...m, saved]);
+      }
+    } catch (err) {
+      notify(err.message, 'err');
+    } finally {
+      setUploading(false);
+      if (mediaRef.current) mediaRef.current.value = '';
+    }
+  };
+
   const send = async () => {
     setSending(true);
     try {
-      const campaign = await api.post('/campaigns', { name, message, groupIds, contactIds, sendNow: true });
+      const campaign = await api.post('/campaigns', { name, message, groupIds, contactIds, media, sendNow: true });
       notify(`Blast started — sending to ${campaign.recipients.length} recipient${campaign.recipients.length === 1 ? '' : 's'}`);
       go('campaigns');
     } catch (err) {
@@ -64,8 +88,9 @@ export default function Compose({ notify, go }) {
 
   const sample = preview?.samples?.[sampleIx];
   const recipientCount = preview?.recipientCount ?? 0;
-  const canSend = message.trim() && recipientCount > 0 && !sending;
+  const canSend = (message.trim() || media.length > 0) && recipientCount > 0 && !sending && !uploading;
   const seg = preview?.segments;
+  const mediaBytes = media.reduce((sum, m) => sum + (m.size || 0), 0);
 
   const selectedSummary = useMemo(() => {
     const parts = [];
@@ -122,9 +147,32 @@ export default function Compose({ notify, go }) {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
+          <div className="attach-row">
+            <button className="btn" onClick={() => mediaRef.current?.click()} disabled={uploading || media.length >= 10}>
+              {uploading ? 'Uploading…' : '📎 Add photo · GIF · video'}
+            </button>
+            {media.map((m, i) => (
+              <div key={m.url} className="attach-thumb">
+                {m.type.startsWith('video/')
+                  ? <video src={m.url} muted />
+                  : <img src={m.url} alt={m.name} />}
+                <button className="attach-remove" title={`Remove ${m.name}`} onClick={() => setMedia(media.filter((_, j) => j !== i))}>✕</button>
+              </div>
+            ))}
+            <input
+              ref={mediaRef} type="file" hidden multiple
+              accept="image/jpeg,image/png,image/gif,image/webp,video/mp4,video/quicktime,video/3gpp"
+              onChange={(e) => attachFiles(e.target.files)}
+            />
+          </div>
+          {mediaBytes > 5 * 1024 * 1024 && (
+            <p className="hint warn-hint">Heads up: attachments total {(mediaBytes / 1048576).toFixed(1)} MB — carriers usually cap MMS around 5 MB, so large videos may be rejected on live sends.</p>
+          )}
           <div className="compose-footer">
             <span className="hint">
-              {seg ? `${seg.chars} chars · ${seg.segments} segment${seg.segments === 1 ? '' : 's'} per message (${seg.encoding})` : 'Each recipient gets their own individual text.'}
+              {media.length > 0
+                ? `MMS · ${media.length} attachment${media.length === 1 ? '' : 's'}${seg ? ` · ${seg.chars} chars` : ''}`
+                : seg ? `${seg.chars} chars · ${seg.segments} segment${seg.segments === 1 ? '' : 's'} per message (${seg.encoding})` : 'Each recipient gets their own individual text.'}
             </span>
             <button className="btn btn-primary btn-lg" disabled={!canSend} onClick={send}>
               {sending ? 'Starting…' : recipientCount ? `Send to ${recipientCount}` : 'Send'}
@@ -143,11 +191,18 @@ export default function Compose({ notify, go }) {
               <div className="phone-number mono">{sample?.phone || ''}</div>
             </div>
             <div className="phone-messages">
+              {media.map((m) => (
+                <div key={m.url} className="bubble bubble-media">
+                  {m.type.startsWith('video/')
+                    ? <video src={m.url} controls muted playsInline />
+                    : <img src={m.url} alt={m.name} />}
+                </div>
+              ))}
               {sample ? (
                 <div className="bubble">{sample.body}</div>
-              ) : (
+              ) : media.length === 0 ? (
                 <div className="phone-empty">Pick an audience and write a message to preview it here.</div>
-              )}
+              ) : null}
             </div>
             {preview?.samples?.length > 1 && (
               <div className="phone-pager">

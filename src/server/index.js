@@ -5,15 +5,18 @@ import path from 'node:path';
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import api from './routes.js';
+import { MEDIA_DIR } from './media.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = process.env.PORT || 4870;
 
 const app = express();
-app.use(express.json({ limit: '5mb' }));
+// generous limit: photo scans and MMS attachments arrive as base64 JSON
+app.use(express.json({ limit: '30mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api', api);
+app.use('/media', express.static(MEDIA_DIR, { maxAge: '1y', immutable: true }));
 
 const dist = path.join(__dirname, '../../dist');
 if (fs.existsSync(dist)) {

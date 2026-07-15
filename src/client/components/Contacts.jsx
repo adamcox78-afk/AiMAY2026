@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { api } from '../api.js';
 import { Card, Empty, usePoll } from './ui.jsx';
+import ImportWizard from './ImportWizard.jsx';
 
 export default function Contacts({ query, notify }) {
   const [contacts, setContacts] = useState([]);
   const [groups, setGroups] = useState([]);
   const [form, setForm] = useState({ firstName: '', lastName: '', phone: '', groupIds: [] });
-  const [csv, setCsv] = useState('');
-  const [csvGroup, setCsvGroup] = useState('');
   const [newGroup, setNewGroup] = useState('');
   const [showImport, setShowImport] = useState(false);
 
@@ -45,23 +44,6 @@ export default function Contacts({ query, notify }) {
     } catch (err) { notify(err.message, 'err'); }
   };
 
-  const importCsv = async () => {
-    const rows = csv.split(/\r?\n/).map((line) => line.trim()).filter(Boolean).map((line) => {
-      const [first = '', last = '', ...rest] = line.split(',').map((s) => s.trim());
-      // Accept "First,Last,Phone" or "First,Phone" or just "Phone"
-      if (rest.length > 0) return { firstName: first, lastName: last, phone: rest.join('') };
-      if (last) return { firstName: first, lastName: '', phone: last };
-      return { firstName: '', lastName: '', phone: first };
-    });
-    try {
-      const result = await api.post('/contacts/import', { rows, groupIds: csvGroup ? [csvGroup] : [] });
-      notify(`Imported ${result.imported} contact${result.imported === 1 ? '' : 's'}${result.skipped ? `, skipped ${result.skipped}` : ''}`);
-      setCsv('');
-      setShowImport(false);
-      refresh();
-    } catch (err) { notify(err.message, 'err'); }
-  };
-
   const toggleFormGroup = (id) => {
     setForm((f) => ({
       ...f,
@@ -91,33 +73,26 @@ export default function Contacts({ query, notify }) {
 
   return (
     <div className="split">
+      {showImport && (
+        <ImportWizard
+          groups={groups}
+          notify={notify}
+          onClose={() => setShowImport(false)}
+          onDone={() => { setShowImport(false); refresh(); }}
+        />
+      )}
       <div className="split-main">
         <Card
           title={`Contacts${q ? ` · ${visible.length} match${visible.length === 1 ? '' : 'es'}` : ` · ${contacts.length}`}`}
-          actions={<button className="btn btn-ghost" onClick={() => setShowImport(!showImport)}>{showImport ? 'Close import' : 'Import CSV'}</button>}
+          actions={<button className="btn btn-primary" onClick={() => setShowImport(true)}>⇪ Import — photo, CSV, paste</button>}
         >
-          {showImport && (
-            <div className="import-box">
-              <p className="hint">Paste one contact per line: <code>First, Last, Phone</code> — or just a phone number.</p>
-              <textarea
-                className="input textarea mono"
-                rows={5}
-                placeholder={'Ada, Lovelace, (555) 010-1815\nGrace, Hopper, +1 555 010 1906\n5550101912'}
-                value={csv}
-                onChange={(e) => setCsv(e.target.value)}
-              />
-              <div className="row gap">
-                <select className="input select" value={csvGroup} onChange={(e) => setCsvGroup(e.target.value)}>
-                  <option value="">No group</option>
-                  {groups.map((g) => <option key={g.id} value={g.id}>Add to “{g.name}”</option>)}
-                </select>
-                <button className="btn btn-primary" disabled={!csv.trim()} onClick={importCsv}>Import</button>
-              </div>
-            </div>
-          )}
-
           {visible.length === 0 ? (
-            <Empty icon="⊚" title={q ? 'No contacts match your search' : 'No contacts yet'} hint={q ? undefined : 'Add one on the right, or import a CSV.'} />
+            <Empty
+              icon="⊚"
+              title={q ? 'No contacts match your search' : 'No contacts yet'}
+              hint={q ? undefined : 'Snap a photo of a list, drop a CSV, or add people one by one.'}
+              action={q ? undefined : <button className="btn btn-primary" onClick={() => setShowImport(true)}>Import contacts</button>}
+            />
           ) : (
             <table className="table">
               <thead>

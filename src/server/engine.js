@@ -25,7 +25,7 @@ export function resolveRecipients(state, { contactIds = [], groupIds = [] }) {
   return out;
 }
 
-export function createCampaign({ name, message, contactIds, groupIds }) {
+export function createCampaign({ name, message, contactIds, groupIds, media = [] }) {
   const state = db();
   const recipients = resolveRecipients(state, { contactIds, groupIds });
   if (recipients.length === 0) return { error: 'No eligible recipients (empty selection, or everyone opted out).' };
@@ -34,6 +34,7 @@ export function createCampaign({ name, message, contactIds, groupIds }) {
     id: uid('cmp'),
     name: name?.trim() || 'Untitled blast',
     message,
+    media: media.slice(0, 10).map((m) => ({ url: m.url, type: m.type, name: m.name })),
     status: 'queued',
     createdAt: new Date().toISOString(),
     startedAt: null,
@@ -76,6 +77,11 @@ async function runCampaign(campaign) {
   const rate = Math.min(Math.max(Number(settings.messagesPerSecond) || 5, 1), 100);
   const gapMs = 1000 / rate;
 
+  // Media must be publicly fetchable for real carriers; relative URLs are
+  // fine in simulation mode.
+  const base = String(settings.publicBaseUrl || '').replace(/\/$/, '');
+  const mediaUrls = (campaign.media || []).map((m) => (m.url.startsWith('http') ? m.url : base + m.url));
+
   for (const r of campaign.recipients) {
     if (campaign.status === 'paused') break;
     if (r.status !== 'pending') continue;
@@ -94,7 +100,7 @@ async function runCampaign(campaign) {
 
     r.status = 'sending';
     save();
-    const result = await sendSms(settings, { to: r.phone, body });
+    const result = await sendSms(settings, { to: r.phone, body, mediaUrls });
     if (result.ok) {
       r.status = 'delivered';
       r.sid = result.sid;

@@ -21,7 +21,8 @@ const DEFAULTS = {
     fromNumber: '',
     messagesPerSecond: 5,
     appendOptOut: true,
-    optOutText: 'Reply STOP to opt out.'
+    optOutText: 'Reply STOP to opt out.',
+    publicBaseUrl: ''
   }
 };
 

@@ -45,6 +45,16 @@ export default function Campaigns({ query, notify, go }) {
             <div className="progress"><div className="progress-fill" style={{ width: `${pct}%` }} /></div>
             <span className="td-dim">{done}/{open.recipients.length} · {delivered} delivered{failed ? ` · ${failed} failed` : ''}</span>
           </div>
+          {open.media?.length > 0 && (
+            <div className="attach-row">
+              {open.media.map((m) => (
+                <div key={m.url} className="attach-thumb">
+                  {m.type.startsWith('video/') ? <video src={m.url} muted /> : <img src={m.url} alt={m.name} />}
+                </div>
+              ))}
+              <span className="hint">{open.media.length} attachment{open.media.length === 1 ? '' : 's'} (MMS)</span>
+            </div>
+          )}
           <blockquote className="message-quote">{open.message}</blockquote>
           <table className="table">
             <thead><tr><th>Recipient</th><th>Phone</th><th>Status</th><th>Detail</th><th>Sent</th></tr></thead>
