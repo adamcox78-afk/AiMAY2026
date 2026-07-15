@@ -1,0 +1,154 @@
+/* Text Radar — the Chrome-style shell: macOS traffic lights, tab strip, omnibox toolbar. */
+
+.chrome {
+  flex-shrink: 0;
+  background: var(--chrome-strip);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ---- tab strip ---- */
+
+.chrome-tabstrip {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 10px 12px 0;
+  overflow-x: auto;
+}
+
+.traffic-lights {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 0 14px 10px 6px;
+  flex-shrink: 0;
+}
+.light { width: 12px; height: 12px; border-radius: 50%; }
+.light.red { background: #ff5f57; }
+.light.yellow { background: #febc2e; }
+.light.green { background: #28c840; }
+
+.chrome-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px 9px;
+  border-radius: 12px 12px 0 0;
+  color: var(--text-2);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  position: relative;
+  transition: background 0.12s ease, color 0.12s ease;
+  max-width: 200px;
+}
+.chrome-tab:hover { background: color-mix(in srgb, var(--chrome-bar) 55%, transparent); color: var(--text); }
+
+.chrome-tab.active {
+  background: var(--chrome-bar);
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* Chrome's inverted corner curves on the active tab */
+.chrome-tab.active::before,
+.chrome-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle at var(--cx) 0, transparent 11.5px, var(--chrome-bar) 12px);
+}
+.chrome-tab.active::before { left: -12px; --cx: 0px; }
+.chrome-tab.active::after { right: -12px; --cx: 12px; }
+
+.chrome-tab-icon { font-size: 12px; opacity: 0.8; }
+
+.chrome-newtab {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  font-size: 17px;
+  color: var(--text-2);
+  margin: 0 6px 6px;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.chrome-newtab:hover { background: color-mix(in srgb, var(--text) 8%, transparent); }
+
+/* ---- toolbar / omnibox ---- */
+
+.chrome-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  background: var(--chrome-bar);
+}
+
+.nav-buttons { display: flex; gap: 2px; }
+.nav-btn {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  font-size: 16px;
+  color: var(--text-2);
+  display: flex; align-items: center; justify-content: center;
+}
+.nav-btn:hover { background: color-mix(in srgb, var(--text) 8%, transparent); color: var(--text); }
+
+.omnibox {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid transparent;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  max-width: 760px;
+  margin: 0 auto;
+}
+.omnibox:focus-within {
+  background: var(--surface);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.omnibox-lock { color: var(--text-2); display: flex; }
+.omnibox-scheme {
+  color: var(--text-2);
+  font-size: 13px;
+  font-family: var(--mono);
+  flex-shrink: 0;
+  user-select: none;
+}
+.omnibox-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 13.5px;
+  min-width: 60px;
+}
+.omnibox-clear {
+  color: var(--text-2);
+  font-size: 12px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.omnibox-clear:hover { background: color-mix(in srgb, var(--text) 10%, transparent); }
+
+.avatar {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #64d2ff);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  user-select: none;
+}

@@ -11,3 +11,7 @@ ruvector.db
 # Dependencies & logs
 node_modules/
 *.log
+
+# Text Radar — build output and local data (contains gateway credentials; never commit)
+dist/
+data/

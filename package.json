@@ -1,0 +1,24 @@
+{
+  "name": "text-radar",
+  "version": "1.0.0",
+  "description": "Text Radar — bulk SMS campaigns, sent individually to every contact.",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n server,client -c blue,green \"node src/server/index.js\" \"vite\"",
+    "build": "vite build",
+    "start": "node src/server/index.js",
+    "test": "vitest run",
+    "preview": "npm run build && node src/server/index.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "vite": "^6.3.5",
+    "vitest": "^3.1.4"
+  }
+}
